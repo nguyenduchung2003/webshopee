@@ -7,28 +7,28 @@ import CategoryChildren from "./CategoryChildren"
 import { createBrowserRouter } from "react-router-dom"
 const Router = createBrowserRouter([
      {
-          path: "/",
+          path: "/webshopee/",
           element: <App />,
           children: [],
      },
      {
-          path: "/login",
+          path: "/webshopee/login",
           element: <Login />,
      },
      {
-          path: "/Register",
+          path: "/webshopee/Register",
           element: <Register />,
      },
      {
-          path: "/products/:id",
+          path: "/webshopee/products/:id",
           element: <Products />,
      },
      {
-          path: "/cart",
+          path: "/webshopee/cart",
           element: <Cart />,
      },
      {
-          path: "/category/:title",
+          path: "/webshopee/category/:title",
           element: <CategoryChildren />,
      },
 ])
