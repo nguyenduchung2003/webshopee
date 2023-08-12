@@ -124,7 +124,7 @@ const Products = () => {
                                    </button>
                               </div>
                               <div className="border-2 bg-red-500 w-[130px] h-[50px] leading-[45px] text-center my-[20px]">
-                                   <NavLink to="/cart">
+                                   <NavLink to="/webshopee/cart">
                                         <button onClick={handlerAddCartNow}>
                                              Mua ngay
                                         </button>

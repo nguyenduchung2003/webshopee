@@ -54,7 +54,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
      }
      const Logout = () => {
           localStorage.removeItem("userNow")
-          navigate("/login")
+          navigate("/webshopee/login")
      }
      return (
           <>
@@ -88,7 +88,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                         <NavLink
                                              className="mx-2.5"
                                              end
-                                             to="/login"
+                                             to="/webshopee/login"
                                              style={({ isActive }) => ({
                                                   color: isActive
                                                        ? "red"
@@ -100,7 +100,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                         <NavLink
                                              className="mx-2.5"
                                              end
-                                             to="/register"
+                                             to="/webshopee/register"
                                              style={({ isActive }) => ({
                                                   color: isActive
                                                        ? "red"
@@ -114,7 +114,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                          </div>
                     </div>
                     <div className="h-[76px] ">
-                         <NavLink to="/">
+                         <NavLink to="/webshopee/">
                               <img
                                    src={logoShopee}
                                    alt=""
@@ -158,7 +158,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                             return (
                                                                  <>
                                                                       <NavLink
-                                                                           to={`/products/${dataProduct.id}`}
+                                                                           to={`/webshopee/products/${dataProduct.id}`}
                                                                            state={
                                                                                 data
                                                                            }
@@ -186,7 +186,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                    </div>
                               </div>
                          </div>
-                         <NavLink to="/cart">
+                         <NavLink to="/webshopee/cart">
                               <FontAwesomeIcon
                                    icon={faShoppingCart}
                                    className="w-25 absolute left-[1390px] top-[65px]"

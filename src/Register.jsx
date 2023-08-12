@@ -65,7 +65,7 @@ const Register = () => {
           if (checkRegisterAccount == false && checkRegisterPassword == false) {
                alert("Đăng kí thành công")
                pushAccountToLocal(User)
-               navagite("/login")
+               navagite("/webshopee/login")
           } else {
                alert("Đăng kí thất bại")
           }
@@ -139,7 +139,7 @@ const Register = () => {
                               Đăng ký
                          </button>
 
-                         <NavLink to="/login">
+                         <NavLink to="/webshopee/login">
                               <div className=" relative top-[50px] left-[270px] w-[200px] h-[50px]">
                                    Tôi đã có tài khoản
                               </div>

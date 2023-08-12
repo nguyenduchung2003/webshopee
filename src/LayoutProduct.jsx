@@ -4,7 +4,7 @@ const LayoutProduct = ({ thumbnail, title, description, price, id, data }) => {
      return (
           <>
                <NavLink
-                    to={`/products/${id}`}
+                    to={`/webshopee/products/${id}`}
                     state={data}
                     className="h-[282px] w-[190px] m-5 border-2"
                >

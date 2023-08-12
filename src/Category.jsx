@@ -44,7 +44,7 @@ const Category = ({ data }) => {
                                    <>
                                         <div className="flex ">
                                              <NavLink
-                                                  to={`/category/${category.title}`}
+                                                  to={`/webshopee/category/${category.title}`}
                                                   state={{
                                                        data: data,
                                                        title: category.title,

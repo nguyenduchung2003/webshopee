@@ -35,7 +35,7 @@ const Login = () => {
           }
           if (checkLogin == true) {
                alert("Đăng nhập thành công")
-               navigate("/")
+               navigate("//webshopee")
           } else {
                alert("Đăng nhập thất bại")
           }
@@ -44,7 +44,7 @@ const Login = () => {
      return (
           <>
                <div className="flex ">
-                    <NavLink to="/">
+                    <NavLink to="//webshopee">
                          <img
                               src={logoShopee}
                               alt=""
@@ -87,7 +87,7 @@ const Login = () => {
                          >
                               Đăng nhập
                          </button>
-                         <NavLink to="/Register">
+                         <NavLink to="/webshopee/Register">
                               <div className=" relative top-[50px] left-[270px] w-[200px] h-[50px]">
                                    Tôi chưa có tài khoản
                               </div>
