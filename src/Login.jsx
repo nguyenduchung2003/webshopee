@@ -35,7 +35,7 @@ const Login = () => {
           }
           if (checkLogin == true) {
                alert("Đăng nhập thành công")
-               navigate("//webshopee")
+               navigate("/webshopee")
           } else {
                alert("Đăng nhập thất bại")
           }
@@ -44,7 +44,7 @@ const Login = () => {
      return (
           <>
                <div className="flex ">
-                    <NavLink to="//webshopee">
+                    <NavLink to="/webshopee">
                          <img
                               src={logoShopee}
                               alt=""

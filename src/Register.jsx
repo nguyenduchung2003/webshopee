@@ -50,6 +50,7 @@ const Register = () => {
           const accounts = JSON.parse(localStorage.getItem("account"))
           accounts.push(account)
           localStorage.setItem("account", JSON.stringify(accounts))
+          
      }
      useEffect(() => {
           if (userList) {

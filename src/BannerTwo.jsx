@@ -98,7 +98,7 @@ const BannerTwo = () => {
           <>
                <div className="mt-[130px]">
                     <div className="bg-white border-solid border-b h-[400px]">
-                         <div className="ml-[110px] mt-40">
+                         <div className=" mt-40">
                               <div className="group w-0 relative">
                                    <div className=" absolute left-[920px] top-20 z-10 w-12">
                                         <AiFillCaretRight
@@ -115,11 +115,8 @@ const BannerTwo = () => {
 
                                    {ArrayPictures.map((picture, index) => {
                                         return (
-                                             <>
-                                                  <div
-                                                       key={index}
-                                                       className="relative left-44 w-[800px] "
-                                                  >
+                                             <div key={index}>
+                                                  <div className="relative left-44 w-[800px] ">
                                                        {index ===
                                                        currentSlied ? (
                                                             <img
@@ -128,31 +125,30 @@ const BannerTwo = () => {
                                                             />
                                                        ) : null}
                                                   </div>
-                                             </>
+                                             </div>
                                         )
                                    })}
 
-                                   <div className="flex relative left-[500px] top-[-20px]">
+                                   <div className="flex relative left-[200px] top-[-20px]">
                                         {ArrayPictures.map((picture, index) => {
                                              return (
-                                                  <>
-                                                       <div className="flex relative w-48">
+                                                  <div key={index}>
+                                                       <div className="flex relative w-8 left-[300px]">
                                                             <AiFillCheckCircle
                                                                  onClick={() =>
                                                                       handlerClickCircle(
                                                                            index
                                                                       )
                                                                  }
-                                                                 className="mx-2.5 "
                                                                  id={index}
                                                             />
                                                        </div>
-                                                  </>
+                                                  </div>
                                              )
                                         })}
                                    </div>
                               </div>
-                              <div className="relative w-[600px] left-[1000px] top-[-255px] h-[240px]">
+                              <div className="relative w-[500px] left-[1000px] top-[-255px] h-[240px]">
                                    <img
                                         src={BannerPictureL1}
                                         className="object-scale-down h-[115px]"
@@ -164,15 +160,15 @@ const BannerTwo = () => {
                               </div>
                          </div>
                          <div className="flex relative top-[-230px] ">
-                              {ArrayPicturesFooter.map((picture) => {
+                              {ArrayPicturesFooter.map((picture, index) => {
                                    return (
-                                        <>
+                                        <div key={index}>
                                              <FootBannerTwo
                                                   linkAnh={picture.img}
                                              >
                                                   {picture.title}
                                              </FootBannerTwo>
-                                        </>
+                                        </div>
                                    )
                               })}
                          </div>

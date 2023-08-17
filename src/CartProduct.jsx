@@ -1,23 +1,18 @@
 import PropTypes from "prop-types"
-import { useEffect, useState } from "react"
 const CartProduct = ({
      linkPicture,
      description,
      price,
      onClick,
      id,
-     quantity,
      statusCheckbox,
      onChange,
+     handlerClickDecrement,
+     handlerClickIncrease,
+     quantitys,
+     handlerSumPrice,
+     currentPrice,
 }) => {
-     const [currentPrice, setCurrentPrice] = useState(price)
-     const [quantitys, setQuantitys] = useState(quantity)
-     const handlerSumPrice = (e) => {
-          setQuantitys(e.target.value)
-     }
-     useEffect(() => {
-          setCurrentPrice(quantitys * price)
-     }, [quantitys, price])
      return (
           <>
                <div className="flex border-2 mb-5 w-[1300px] h-[120px] ml-[150px] justify-between mt-[17px]">
@@ -40,15 +35,33 @@ const CartProduct = ({
                     </div>
                     <div className=" my-[auto] mx-0 w-7">{price}$</div>
                     <input
+                         className="border-2 w-[30px] h-[40px] relative my-[auto] left-[46px]"
+                         type="button"
+                         value="-"
+                         onClick={handlerClickDecrement}
+                         id={`${id}_decrement`}
+                    />
+                    <input
                          type="number"
                          id={`${id}_input`}
                          value={quantitys}
-                         className=" border-2 h-[50px] my-[auto] mx-0 "
+                         className=" border-y-2 h-[40px] w-[160px] my-[auto] mx-0 text-center"
                          min="0"
+                         readOnly
                          onChange={handlerSumPrice}
                     />
-                    <div className="my-[auto] mx-0 w-[50px]" id={`${id}_price`}>
-                         {currentPrice}
+                    <input
+                         className="border-2 w-[30px] h-[40px] relative my-[auto] left-[-47px]"
+                         type="button"
+                         value="+"
+                         onClick={handlerClickIncrease}
+                         id={`${id}_increase`}
+                    ></input>
+                    <div
+                         className="my-[auto] mx-0 w-[50px] relative left-[-40px]"
+                         id={`${id}_price`}
+                    >
+                         {currentPrice}$
                     </div>
                     <button
                          className="my-[auto] mx-0 relative right-10"
@@ -70,5 +83,10 @@ CartProduct.propTypes = {
      quantity: PropTypes.any,
      statusCheckbox: PropTypes.any,
      onChange: PropTypes.any,
+     handlerClickDecrement: PropTypes.any,
+     handlerClickIncrease: PropTypes.any,
+     quantitys: PropTypes.any,
+     handlerSumPrice: PropTypes.any,
+     currentPrice: PropTypes.any,
 }
 export default CartProduct

@@ -36,12 +36,12 @@ const dataPicture = [
 const Category = ({ data }) => {
      return (
           <>
-               <div className=" w-[1200px] ml-[280px]">
+               <div className=" w-[1200px] ml-[200px]">
                     <div className="flex ">Danh mục</div>
                     <div className="flex justify-center ">
-                         {dataPicture.map((category) => {
+                         {dataPicture.map((category, index) => {
                               return (
-                                   <>
+                                   <div key={index}>
                                         <div className="flex ">
                                              <NavLink
                                                   to={`/webshopee/category/${category.title}`}
@@ -60,7 +60,7 @@ const Category = ({ data }) => {
                                                   />
                                              </NavLink>
                                         </div>
-                                   </>
+                                   </div>
                               )
                          })}
                     </div>

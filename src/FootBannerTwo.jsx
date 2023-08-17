@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 function FootBannerTwo({ linkAnh, children }) {
      return (
           <>
-               <div className="relative w-[100px] mx-5 left-[270px] ">
+               <div className="relative w-[100px] mx-5 left-[160px] ">
                     <button
                          className={`w-[45px] h-[45px]  bg-contain  border-none bg-no-repeat ml-4`}
                          style={{ backgroundImage: `url(${linkAnh})` }}

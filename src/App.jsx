@@ -23,7 +23,7 @@ function App() {
                <Banner data={dataProduct} statusBanner="fixed" />
                <BannerTwo />
                <Category data={dataProduct} />
-               <div className="flex flex-wrap w-[1200px] relative left-[300px]">
+               <div className="flex flex-wrap w-[1200px] relative left-[225px]">
                     {dataProduct.slice(0, visibleProducts).map((product) => (
                          <LayoutProduct
                               key={product.id}

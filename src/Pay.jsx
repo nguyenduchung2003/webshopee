@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-const Pay = ({ sumProduct, sumPrice, onChange, onClickAll }) => {
+const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
      return (
           <>
                <div className="flex justify-between absolute left-[150px]">
@@ -23,7 +23,10 @@ const Pay = ({ sumProduct, sumPrice, onChange, onClickAll }) => {
                          <div className="relative left-[100px] w-[200px] mt-[7px]">
                               Tổng sản phẩm ({sumProduct}):{sumPrice} $
                          </div>
-                         <button className="relative left-[179px] w-[210px] h-[40px] bg-red-500">
+                         <button
+                              className="relative left-[179px] w-[210px] h-[40px] bg-red-500"
+                              onClick={onClick}
+                         >
                               Mua hàng
                          </button>
                     </div>
@@ -36,5 +39,6 @@ Pay.propTypes = {
      sumProduct: PropTypes.any,
      onChange: PropTypes.any,
      onClickAll: PropTypes.any,
+     onClick: PropTypes.any,
 }
 export default Pay

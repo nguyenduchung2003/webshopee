@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"
+import { SearchOutlined } from "@ant-design/icons"
 import { NavLink, useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
 import logoShopee from "./Picture/logoShopee.png"
@@ -56,6 +57,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
           localStorage.removeItem("userNow")
           navigate("/webshopee/login")
      }
+
      return (
           <>
                <div
@@ -71,16 +73,30 @@ const Banner = ({ statusBanner, isCart = false }) => {
                               <div className="mx-2.5">Kết nối</div>
                          </div>
                          <div className="flex">
-                              <div className="mx-2.5">Thông báo</div>
-                              <div className="mx-2.5">Hỗ trợ</div>
-                              <div className="mx-2.5">Tiếng việt</div>
+                              <div className="mx-5">Thông báo</div>
+                              <div className="mx-5">Hỗ trợ</div>
+                              <div className="mx-5">Tiếng việt</div>
                               {isAccount ? (
                                    <>
-                                        <div className="mx-10">
+                                        <div className="mx-10 group absolute z-100 right-[-20px] w-[120px]">
                                              {UserName.current}
+                                             <div className="hidden group-hover:block mt-2">
+                                                  <div>
+                                                       <NavLink
+                                                            to="/webshopee/history"
+                                                            className="border-2"
+                                                       >
+                                                            Lịch sử đặt hàng
+                                                       </NavLink>
+                                                  </div>
+                                                  <div
+                                                       onClick={Logout}
+                                                       className="w-auto border-2 cursor-pointer"
+                                                  >
+                                                       Đăng xuất
+                                                  </div>
+                                             </div>
                                         </div>
-
-                                        <div onClick={Logout}>Đăng xuất</div>
                                    </>
                               ) : (
                                    <>
@@ -126,72 +142,153 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                    </div>
                               ) : null}
                          </NavLink>
+                         {isCart ? (
+                              <>
+                                   <div className="ml-[300px] mt-[-20px]">
+                                        <button className="w-[50px] h-[35px] absolute top-[55px] z-10 left-[1130px] bg-backgroudBanner">
+                                             <SearchOutlined className="flex justify-center items-center" />
+                                        </button>
+                                        <div
+                                             className="relative top-[30px]"
+                                             ref={wrapperRef}
+                                        >
+                                             <input
+                                                  className="absolute w-[800px] h-10 left-[120px] top-[18px] "
+                                                  type="text"
+                                                  value={textSearch}
+                                                  placeholder="Cơ hội trúng 88 iphone!"
+                                                  onChange={handlerSearch}
+                                                  onClick={handerIsSearch}
+                                             />
 
-                         <div className="ml-[200px] mt-[-20px]">
-                              <button className="w-15 h-[35px] absolute top-[55px] z-10 left-[1200px] bg-backgroudBanner">
-                                   <i className="fa fa-search  w-12 flex justify-center"></i>
-                              </button>
-                              <div
-                                   className="relative top-[30px]"
-                                   ref={wrapperRef}
-                              >
-                                   <input
-                                        className="absolute w-[800px] h-10 left-[300px] top-[18px] "
-                                        type="text"
-                                        value={textSearch}
-                                        placeholder="Cơ hội trúng 88 iphone!"
-                                        onChange={handlerSearch}
-                                        onClick={handerIsSearch}
-                                   />
-                                   <div className="absolute left-[300px] top-[12px]">
-                                        {isSearch ? (
-                                             <>
-                                                  {data.map((dataProduct) => {
-                                                       if (
-                                                            dataProduct.brand.includes(
-                                                                 textSearch
-                                                            ) ||
-                                                            dataProduct.title.includes(
-                                                                 textSearch
-                                                            )
-                                                       ) {
-                                                            return (
-                                                                 <>
-                                                                      <NavLink
-                                                                           to={`/webshopee/products/${dataProduct.id}`}
-                                                                           state={
-                                                                                data
-                                                                           }
-                                                                           className={
-                                                                                "relative z-50 w-[700px] h-10  "
-                                                                           }
-                                                                      >
-                                                                           <div
-                                                                                className="border-2 relative z-50 w-[700px] h-10  bg-slate-300"
-                                                                                onClick={
-                                                                                     onClickSearch
-                                                                                }
-                                                                           >
-                                                                                {
-                                                                                     dataProduct.title
-                                                                                }
-                                                                           </div>
-                                                                      </NavLink>
-                                                                 </>
-                                                            )
-                                                       }
-                                                  })}
-                                             </>
-                                        ) : null}
+                                             <div className="absolute left-[300px] top-[58px]">
+                                                  {isSearch ? (
+                                                       <>
+                                                            {data.map(
+                                                                 (
+                                                                      dataProduct
+                                                                 ) => {
+                                                                      if (
+                                                                           dataProduct.brand.includes(
+                                                                                textSearch
+                                                                           ) ||
+                                                                           dataProduct.title.includes(
+                                                                                textSearch
+                                                                           )
+                                                                      ) {
+                                                                           return (
+                                                                                <>
+                                                                                     <NavLink
+                                                                                          to={`/webshopee/products/${dataProduct.id}`}
+                                                                                          state={
+                                                                                               data
+                                                                                          }
+                                                                                          className={
+                                                                                               "relative z-50 w-[700px] h-10  "
+                                                                                          }
+                                                                                     >
+                                                                                          <div
+                                                                                               className="border-2 relative z-50 w-[700px] h-10  bg-slate-300"
+                                                                                               onClick={
+                                                                                                    onClickSearch
+                                                                                               }
+                                                                                          >
+                                                                                               {
+                                                                                                    dataProduct.title
+                                                                                               }
+                                                                                          </div>
+                                                                                     </NavLink>
+                                                                                </>
+                                                                           )
+                                                                      }
+                                                                 }
+                                                            )}
+                                                       </>
+                                                  ) : null}
+                                             </div>
+                                        </div>
                                    </div>
-                              </div>
-                         </div>
-                         <NavLink to="/webshopee/cart">
-                              <FontAwesomeIcon
-                                   icon={faShoppingCart}
-                                   className="w-25 absolute left-[1390px] top-[65px]"
-                              />
-                         </NavLink>
+                                   <NavLink to="/webshopee/cart">
+                                        <FontAwesomeIcon
+                                             icon={faShoppingCart}
+                                             className="w-25 absolute left-[1300px] top-[65px]"
+                                        />
+                                   </NavLink>
+                              </>
+                         ) : (
+                              <>
+                                   <div className="ml-[200px] mt-[-20px]">
+                                        <button className="w-[50px] h-[35px] absolute top-[55px] z-10 left-[1030px] bg-backgroudBanner">
+                                             <SearchOutlined className="flex justify-center items-center" />
+                                        </button>
+                                        <div
+                                             className="relative top-[30px]"
+                                             ref={wrapperRef}
+                                        >
+                                             <input
+                                                  className="absolute w-[800px] h-10 left-[120px] top-[18px] "
+                                                  type="text"
+                                                  value={textSearch}
+                                                  placeholder="Cơ hội trúng 88 iphone!"
+                                                  onChange={handlerSearch}
+                                                  onClick={handerIsSearch}
+                                             />
+
+                                             <div className="absolute left-[300px] top-[58px]">
+                                                  {isSearch ? (
+                                                       <>
+                                                            {data.map(
+                                                                 (
+                                                                      dataProduct
+                                                                 ) => {
+                                                                      if (
+                                                                           dataProduct.brand.includes(
+                                                                                textSearch
+                                                                           ) ||
+                                                                           dataProduct.title.includes(
+                                                                                textSearch
+                                                                           )
+                                                                      ) {
+                                                                           return (
+                                                                                <>
+                                                                                     <NavLink
+                                                                                          to={`/webshopee/products/${dataProduct.id}`}
+                                                                                          state={
+                                                                                               data
+                                                                                          }
+                                                                                          className={
+                                                                                               "relative z-50 w-[700px] h-10  "
+                                                                                          }
+                                                                                     >
+                                                                                          <div
+                                                                                               className="border-2 relative z-50 w-[700px] h-10  bg-slate-300"
+                                                                                               onClick={
+                                                                                                    onClickSearch
+                                                                                               }
+                                                                                          >
+                                                                                               {
+                                                                                                    dataProduct.title
+                                                                                               }
+                                                                                          </div>
+                                                                                     </NavLink>
+                                                                                </>
+                                                                           )
+                                                                      }
+                                                                 }
+                                                            )}
+                                                       </>
+                                                  ) : null}
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <NavLink to="/webshopee/cart">
+                                        <FontAwesomeIcon
+                                             icon={faShoppingCart}
+                                             className="w-25 absolute left-[1200px] top-[65px]"
+                                        />
+                                   </NavLink>
+                              </>
+                         )}
                     </div>
                     <div className="flex justify-center relative bottom-[-20px]">
                          <div className="mx-2.5"> Săn Sale 1k</div>

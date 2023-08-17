@@ -56,6 +56,12 @@ const Products = () => {
      const hanglerQuantity = (e) => {
           setQuantity(e.target.value)
      }
+     const handlerClickDecrement = () => {
+          setQuantity(quantity - 1)
+     }
+     const handlerClickIncrease = () => {
+          setQuantity(quantity + 1)
+     }
      return (
           <>
                <Banner />
@@ -65,17 +71,14 @@ const Products = () => {
                               {product
                                    ? product.images.map((image, index) => {
                                           return (
-                                               <>
-                                                    <div>
-                                                         {index ===
-                                                         currentImg ? (
-                                                              <img
-                                                                   src={image}
-                                                                   className="w-[505px] h-[470px]"
-                                                              />
-                                                         ) : null}
-                                                    </div>
-                                               </>
+                                               <div key={index}>
+                                                    {index === currentImg ? (
+                                                         <img
+                                                              src={image}
+                                                              className="w-[505px] h-[470px]"
+                                                         />
+                                                    ) : null}
+                                               </div>
                                           )
                                      })
                                    : null}
@@ -107,12 +110,25 @@ const Products = () => {
                          </div>
                          <div className="my-[20px]">
                               <input
+                                   className="border-2 w-[30px] h-[40px] relative my-[auto] "
+                                   type="button"
+                                   value="-"
+                                   onClick={handlerClickDecrement}
+                              />
+                              <input
                                    type="number"
-                                   className="border-2"
+                                   className="border-y-2 h-[40px] w-[160px] text-center"
                                    value={quantity}
                                    min="0"
+                                   readOnly
                                    onChange={hanglerQuantity}
                               />
+                              <input
+                                   className="border-2 w-[30px] h-[40px] relative my-[auto] left-[0px]"
+                                   type="button"
+                                   value="+"
+                                   onClick={handlerClickIncrease}
+                              ></input>
                          </div>
                          <div className="flex">
                               <div className="border-2 bg-red-500 w-[200px] h-[50px] leading-[45px] text-center my-[20px]">

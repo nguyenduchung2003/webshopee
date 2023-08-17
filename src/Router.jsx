@@ -4,7 +4,9 @@ import Register from "./Register"
 import Products from "./Products"
 import Cart from "./Cart"
 import CategoryChildren from "./CategoryChildren"
+import History from "./History"
 import { createBrowserRouter } from "react-router-dom"
+
 const Router = createBrowserRouter([
      {
           path: "/webshopee/",
@@ -30,6 +32,10 @@ const Router = createBrowserRouter([
      {
           path: "/webshopee/category/:title",
           element: <CategoryChildren />,
+     },
+     {
+          path: "/webshopee/history",
+          element: <History />,
      },
 ])
 export default Router
