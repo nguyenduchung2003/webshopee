@@ -239,14 +239,6 @@ const Cart = () => {
      // const leftQuantity = useRef()
      // const leftMoney = useRef()
 
-     const maxwithProduct = useRef("100rem")
-     const mlProducts = useRef("150px")
-     const maxWProducts = useRef("100%")
-     const leftProduct = useRef("250px")
-     const leftContent = useRef("800px")
-     const leftPrice = useRef("60px")
-     const leftQuantity = useRef("120px")
-     const leftMoney = useRef("180px")
      // useEffect(() => {
      //      if (isLayoutPay) {
      //           maxwithProduct.current = "70rem"
@@ -396,43 +388,27 @@ const Cart = () => {
           })
      }
 
-     // const handlerSumPrice = (e) => {
-     //      // setSumQuantity((quantitys) => {
-     //      //      return quantitys.map((quantity) => {
-     //      //           if (quantity.idQuantity == e.target.id.split("_")[0]) {
-     //      //                return {
-     //      //                     ...quantity,
-     //      //                     sumQuantity: Number(e.target.value),
-     //      //                }
-     //      //           }
-     //      //           return quantity
-     //      //      })
-     //      // })
-     //      // setArrayProductCart((products) => {
-     //      //      return products.map((product) => {
-     //      //           if (product.id == e.target.id.split("_")[0]) {
-     //      //                console.log(product)
-     //      //                return {
-     //      //                     ...product,
-     //      //                     quantity: Number(e.target.value),
-     //      //                }
-     //      //           }
-     //      //           return product
-     //      //      })
-     //      // })
-     //      // console.log(arrayProductCart)
-     //      // localStorage.setItem("product", JSON.stringify(arrayProductCart))
-     // }
+     const maxwithProduct = useRef("100rem")
+     const mlProducts = useRef("120px")
+     const maxWProducts = useRef("100%")
+     const leftProduct = useRef("250px")
+     const leftContent = useRef("800px")
+     const leftPrice = useRef("40px")
+     const leftQuantity = useRef("190px")
+     const leftMoney = useRef("335px")
+     const leftActive = useRef("370px")
+
      const handlerPayProduct = () => {
           setIsLayoutPay(true)
-          maxwithProduct.current = "70rem"
+          maxwithProduct.current = "75rem"
           mlProducts.current = "10px"
-          maxWProducts.current = "95%"
+          maxWProducts.current = "90%"
           leftProduct.current = "100px"
           leftContent.current = "400px"
-          leftPrice.current = "250px"
-          leftQuantity.current = "240px"
-          leftMoney.current = "230px"
+          leftPrice.current = "270px"
+          leftQuantity.current = "365px"
+          leftMoney.current = "440px"
+          leftActive.current = "440px"
      }
      function pushHistoryToLocal(proudct) {
           if (localStorage.getItem("history") === null) {
@@ -487,13 +463,14 @@ const Cart = () => {
                alert("Bạn chưa chọn sản phẩm")
           }
           maxwithProduct.current = "100rem"
-          mlProducts.current = "150px"
+          mlProducts.current = "120px"
           maxWProducts.current = "100%"
           leftProduct.current = "250px"
           leftContent.current = "800px"
-          leftPrice.current = "60px"
-          leftQuantity.current = "120px"
-          leftMoney.current = "180px"
+          leftPrice.current = "40px"
+          leftQuantity.current = "190px"
+          leftMoney.current = "335px"
+          leftActive.current = "370px"
      }
 
      return (
@@ -503,13 +480,14 @@ const Cart = () => {
                          allPrice={sumPrice}
                          clickCancel={() => {
                               maxwithProduct.current = "100rem"
-                              mlProducts.current = "150px"
+                              mlProducts.current = "120px"
                               maxWProducts.current = "100%"
                               leftProduct.current = "250px"
                               leftContent.current = "800px"
-                              leftPrice.current = "60px"
-                              leftQuantity.current = "120px"
-                              leftMoney.current = "180px"
+                              leftPrice.current = "40px"
+                              leftQuantity.current = "190px"
+                              leftMoney.current = "335px"
+                              leftActive.current = "370px"
                               return setIsLayoutPay(false)
                          }}
                          clickPay={clickPay}
@@ -520,37 +498,39 @@ const Cart = () => {
                {arrayProductCart?.length > 0 &&
                arrayProductCart.some((x) => x.userId == userNow.id) ? (
                     <>
-                         <div className={`max-w-[${maxwithProduct.current}]`}>
-                              <div className="flex ">
+                         <div className={` max-w-[${maxwithProduct.current}]`}>
+                              {/* <div className="flex "> */}
+                              <div
+                                   className={`absolute top-[130px] left-[${leftProduct.current}]`}
+                              >
+                                   Sản phẩm
+                              </div>
+                              {/* left-[${leftContent.current}]  */}
+                              <div
+                                   className={`flex absolute top-[130px] left-[${leftContent.current}]`}
+                              >
                                    <div
-                                        className={`absolute left-[${leftProduct.current}]`}
+                                        className={`relative left-[${leftPrice.current}]`}
                                    >
-                                        Sản phẩm
+                                        Đơn giá
                                    </div>
-
                                    <div
-                                        className={`flex absolute left-[${leftContent.current}]`}
+                                        className={`relative left-[${leftQuantity.current}] `}
                                    >
-                                        <div
-                                             className={`mx-5 relative left-[${leftPrice.current}] w-[100px]`}
-                                        >
-                                             Đơn giá
-                                        </div>
-                                        <div
-                                             className={`mx-5  relative left-[${leftQuantity.current}] w-[100px]`}
-                                        >
-                                             Số lượng
-                                        </div>
-                                        <div
-                                             className={`mx-5 relative left-[${leftMoney.current}] w-[100px] `}
-                                        >
-                                             Số tiền
-                                        </div>
-                                        <div className="mx-5 relative left-[140px] w-[100px]">
-                                             Thao tác
-                                        </div>
+                                        Số lượng
+                                   </div>
+                                   <div
+                                        className={`relative left-[${leftMoney.current}]`}
+                                   >
+                                        Số tiền
+                                   </div>
+                                   <div
+                                        className={`relative left-[${leftActive.current}] `}
+                                   >
+                                        Thao tác
                                    </div>
                               </div>
+                              {/* </div> */}
                               <div className="mt-[20px] h-[440px] overflow-auto">
                                    {arrayProductCart.map((product, index) => {
                                         if (product.userId == userNow.id) {

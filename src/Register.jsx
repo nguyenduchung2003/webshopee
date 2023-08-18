@@ -53,7 +53,7 @@ const Register = () => {
      useEffect(() => {
           console.log(valueAccount.current)
           if (
-               accountss.some(
+               accountss?.some(
                     (account) => account.account == valueAccount.current
                )
           ) {

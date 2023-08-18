@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
      return (
           <>
-               <div className="flex justify-between left-[150px]">
+               <div className="flex justify-between ">
                     <div className="flex mt-10 ml-[100px]">
                          <div className="mx-10 flex">
                               <input
@@ -20,7 +20,7 @@ const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
                               Xóa
                          </div>
                     </div>
-                    <div className="flex relative mt-10 mr-5">
+                    <div className="flex relative mt-10 mr-[100px]">
                          <div className="relative  w-[200px] mt-[7px] mr-10">
                               Tổng sản phẩm ({sumProduct}):{sumPrice} $
                          </div>
