@@ -14,7 +14,17 @@ const Banner = ({ statusBanner, isCart = false }) => {
      const UserName = useRef(null)
      const data = useContext(DataContext)
      const navigate = useNavigate()
-
+     const [isUserNow, setIsUserNow] = useState(false)
+     useEffect(() => {
+          if (localStorage.getItem("userNow")) {
+               setIsUserNow(true)
+          } else {
+               setIsUserNow(false)
+          }
+     }, [])
+     const checkIsUserNow = () => {
+          navigate("/webshopee/login")
+     }
      useEffect(() => {
           const userNow = JSON.parse(localStorage.getItem("userNow"))
           if (userNow) {
@@ -57,6 +67,14 @@ const Banner = ({ statusBanner, isCart = false }) => {
      const Logout = () => {
           localStorage.removeItem("userNow")
           navigate("/webshopee/login")
+     }
+     const clickContentSearch = (e) => {
+          if (isUserNow == false) {
+               e.preventDefault()
+               navigate("/webshopee/login")
+          } else {
+               navigate("/webshopee/login")
+          }
      }
 
      return (
@@ -159,15 +177,10 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                   value={textSearch}
                                                   placeholder="Cơ hội trúng 88 iphone!"
                                                   onChange={handlerSearch}
-                                                  // onChange={(e) =>
-                                                  //      setTextSearch(
-                                                  //           e.target.value
-                                                  //      )
-                                                  // }
                                                   onClick={handerIsSearch}
                                              />
 
-                                             <div className="absolute left-[120px] top-[58px] ">
+                                             <div className="absolute left-[120px] top-[58px] overflow-auto h-[300px]">
                                                   {isSearch ? (
                                                        <>
                                                             {data.map(
@@ -197,6 +210,9 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                                           className={
                                                                                                "relative z-50 w-[700px]  h-10  "
                                                                                           }
+                                                                                          onClick={
+                                                                                               clickContentSearch
+                                                                                          }
                                                                                      >
                                                                                           <div
                                                                                                className="border-2 relative z-50 w-[700px] h-10  bg-slate-300 "
@@ -219,12 +235,21 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                              </div>
                                         </div>
                                    </div>
-                                   <NavLink to="/webshopee/cart">
+                                   {isUserNow ? (
+                                        <NavLink to="/webshopee/cart">
+                                             <FontAwesomeIcon
+                                                  icon={faShoppingCart}
+                                                  className="w-25 absolute left-[1300px] top-[65px]"
+                                                  onClick={checkIsUserNow}
+                                             />
+                                        </NavLink>
+                                   ) : (
                                         <FontAwesomeIcon
                                              icon={faShoppingCart}
                                              className="w-25 absolute left-[1300px] top-[65px]"
+                                             onClick={checkIsUserNow}
                                         />
-                                   </NavLink>
+                                   )}
                               </>
                          ) : (
                               <>
@@ -242,15 +267,10 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                   value={textSearch}
                                                   placeholder="Cơ hội trúng 88 iphone!"
                                                   onChange={handlerSearch}
-                                                  // onChange={(e) =>
-                                                  //      setTextSearch(
-                                                  //           e.target.value
-                                                  //      )
-                                                  // }
                                                   onClick={handerIsSearch}
                                              />
 
-                                             <div className="absolute left-[120px] top-[58px]">
+                                             <div className="absolute left-[120px] top-[58px] overflow-auto h-[300px]">
                                                   {isSearch ? (
                                                        <>
                                                             {data.map(
@@ -280,6 +300,9 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                                           className={
                                                                                                "relative z-50 w-[700px] h-10  "
                                                                                           }
+                                                                                          onClick={
+                                                                                               clickContentSearch
+                                                                                          }
                                                                                      >
                                                                                           <div
                                                                                                className="border-2 relative z-50 w-[700px] h-10  bg-slate-300"
@@ -302,12 +325,21 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                              </div>
                                         </div>
                                    </div>
-                                   <NavLink to="/webshopee/cart">
+                                   {isUserNow ? (
+                                        <NavLink to="/webshopee/cart">
+                                             <FontAwesomeIcon
+                                                  icon={faShoppingCart}
+                                                  className="w-25 absolute left-[1300px] top-[65px]"
+                                                  onClick={checkIsUserNow}
+                                             />
+                                        </NavLink>
+                                   ) : (
                                         <FontAwesomeIcon
                                              icon={faShoppingCart}
-                                             className="w-25 absolute left-[1200px] top-[65px]"
+                                             className="w-25 absolute left-[1300px] top-[65px]"
+                                             onClick={checkIsUserNow}
                                         />
-                                   </NavLink>
+                                   )}
                               </>
                          )}
                     </div>

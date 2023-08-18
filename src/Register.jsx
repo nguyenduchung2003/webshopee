@@ -106,7 +106,7 @@ const Register = () => {
      return (
           <>
                <div className="flex ">
-                    <NavLink to="/">
+                    <NavLink to="/webshopee/">
                          <img
                               src={logoShopee}
                               alt=""
