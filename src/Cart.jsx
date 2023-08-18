@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import CartProduct from "./CartProduct"
 import Pay from "./Pay"
 import Banner from "./Banner"
@@ -8,6 +8,7 @@ import LayoutPay from "./LayoutPay"
 import { v4 as uuidv4 } from "uuid"
 import moment from "moment"
 const Cart = () => {
+     const userNow = JSON.parse(localStorage.getItem("userNow"))
      const [arrayProductCart, setArrayProductCart] = useState(
           JSON.parse(localStorage.getItem("product") || "[]")
      )
@@ -23,31 +24,63 @@ const Cart = () => {
      const [arrayStatusCheckboxFalse, setArrayStatusCheckboxFalse] = useState(
           document.querySelectorAll('input[type="checkbox"][id$="_checkbox"]')
      )
+
+     // const [sumQuantity, setSumQuantity] = useState(
+     //      arrayProductCart?.map((product) => {
+     //           if (product.userId == userNow.id) {
+     //                return {
+     //                     idQuantity: product.id,
+     //                     sumQuantity: product.quantity,
+     //                }
+     //           } else return []
+     //      })
+     // )
      const [sumQuantity, setSumQuantity] = useState(
           arrayProductCart?.map((product) => {
-               return {
-                    idQuantity: product.id,
-                    sumQuantity: product.quantity,
-               }
+               if (product.userId == userNow.id) {
+                    return {
+                         idQuantity: product.id,
+                         sumQuantity: product.quantity,
+                    }
+               } else return []
           })
      )
-     const [isLayoutPay, setIsLayoutPay] = useState(false)
-     const navigate = useNavigate()
-     useEffect(() => {
-          const userNow = JSON.parse(localStorage.getItem("userNow"))
-          if (userNow) {
-               setArrayProductCart((a) =>
-                    a?.filter((product) => {
-                         return product.userId == userNow.id
-                    })
-               )
-          } else {
-               null
-          }
-     }, [])
      const [arrayStatusPrice, setArrayStatusPrice] = useState(
           document.querySelectorAll('div[id$="_price"]')
      )
+     // useEffect(() => {
+     //      const updatedSumQuantity = arrayProductCart?.map((product) => {
+     //           if (product.userId === userNow.id) {
+     //                return {
+     //                     idQuantity: product.id,
+     //                     sumQuantity: product.quantity,
+     //                }
+     //           }
+     //           return null
+     //      })
+     //      if (
+     //           JSON.stringify(updatedSumQuantity) !==
+     //           JSON.stringify(sumQuantity)
+     //      ) {
+     //           setSumQuantity(updatedSumQuantity)
+     //      }
+     // }, [arrayProductCart, userNow])
+     const [isLayoutPay, setIsLayoutPay] = useState(false)
+
+     // const prevArrayProductCartRef = useRef(sumQuantity)
+     const navigate = useNavigate()
+     // useEffect(() => {
+     //      if (userNow) {
+     //           setArrayProductCart((a) =>
+     //                a?.filter((product) => {
+     //                     return product.userId == userNow.id
+     //                })
+     //           )
+     //      } else {
+     //           null
+     //      }
+     // }, [])
+
      // const handlerDelProduct = (e) => {
      //      let found = false
      //      const productId = Number(e.target.id)
@@ -72,20 +105,187 @@ const Cart = () => {
      //      setSumQuantity(newArray2)
      //      localStorage.setItem("product", JSON.stringify(newArray))
      // }
+
+     useEffect(() => {
+          setArrayStatusPrice(document.querySelectorAll('div[id$="_price"]'))
+     }, [arrayProductCart])
+     useEffect(() => {
+          setSumProductCart(arrayStatusCheckbox.length)
+     }, [arrayStatusCheckbox.length])
+
+     useEffect(() => {
+          const checkBoxProduct = () => {
+               let arrray = []
+               // setSumProductCart(arrayStatusCheckbox.length)
+               arrayStatusCheckbox.forEach((item) => {
+                    arrayProductCart.forEach((product) => {
+                         arrayStatusPrice.forEach((value) => {
+                              let idProduct = item.id.split("_")[0]
+
+                              if (
+                                   idProduct == product.id &&
+                                   idProduct == value.id.split("_")[0] &&
+                                   product.userId == userNow.id
+                              ) {
+                                   arrray.push(
+                                        Number(value.innerText.split("$")[0])
+                                   )
+                              }
+                         })
+                    })
+               })
+               const sumWithInitial = arrray.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue,
+                    0
+               )
+               setSumPrice(sumWithInitial)
+          }
+          checkBoxProduct()
+     }, [arrayProductCart, arrayStatusCheckbox, arrayStatusPrice, userNow])
+
+     useEffect(() => {
+          let AllCheckBox = document.getElementById("allCheckBox")
+          if (AllCheckBox) {
+               if (
+                    arrayStatusCheckbox.length < arrayStatusCheckboxFalse.length
+               ) {
+                    AllCheckBox.checked = false
+               } else if (
+                    arrayStatusCheckbox.length > 0 &&
+                    arrayStatusCheckbox.length ==
+                         arrayStatusCheckboxFalse.length
+               ) {
+                    AllCheckBox.checked = true
+               }
+          } else {
+               null
+          }
+     }, [arrayStatusCheckbox.length, arrayStatusCheckboxFalse.length])
+
+     useEffect(() => {
+          setArrayProductCart((products) => {
+               return products.map((product, index) => {
+                    if (
+                         product.id == sumQuantity[index]?.idQuantity &&
+                         product.userId == userNow.id
+                    ) {
+                         return {
+                              ...product,
+                              quantity: sumQuantity[index]?.sumQuantity,
+                         }
+                    }
+                    return product
+               })
+          })
+     }, [userNow.id, sumQuantity])
+
+     // useEffect(() => {
+     //      if (prevArrayProductCartRef.current.length === 0) {
+     //           prevArrayProductCartRef.current = sumQuantity
+     //           return
+     //      }
+
+     //      setArrayProductCart((products) => {
+     //           return products.map((product, index) => {
+     //                const prevCartItem = prevArrayProductCartRef.current[index]
+
+     //                if (
+     //                     prevCartItem &&
+     //                     product.id === prevCartItem.idQuantity &&
+     //                     product.userId === userNow.id
+     //                ) {
+     //                     return {
+     //                          ...product,
+     //                          quantity: prevCartItem.sumQuantity,
+     //                     }
+     //                }
+     //                return product
+     //           })
+     //      })
+
+     //      prevArrayProductCartRef.current = sumQuantity
+     // }, [userNow, sumQuantity])
+
+     useEffect(() => {
+          localStorage.setItem("product", JSON.stringify(arrayProductCart))
+     }, [arrayProductCart])
+     // useEffect(() => {
+     //      const storedProduct = JSON.parse(
+     //           localStorage.getItem("product") || "[]"
+     //      )
+     //      if (
+     //           JSON.stringify(storedProduct) !==
+     //           JSON.stringify(arrayProductCart)
+     //      ) {
+     //           localStorage.setItem("product", JSON.stringify(arrayProductCart))
+     //      }
+     // }, [arrayProductCart])
+     // const prevArrayProductCartRef = useRef(arrayProductCart)
+
+     // useEffect(() => {
+     //      const prevArrayProductCart = prevArrayProductCartRef.current
+
+     //      if (prevArrayProductCart !== arrayProductCart) {
+     //           localStorage.setItem("product", JSON.stringify(arrayProductCart))
+     //           prevArrayProductCartRef.current = arrayProductCart
+     //      }
+     // }, [arrayProductCart])
+     // const maxwithProduct = useRef()
+     // const mlProducts = useRef()
+     // const maxWProducts = useRef()
+     // const leftProduct = useRef()
+     // const leftContent = useRef()
+     // const leftPrice = useRef()
+     // const leftQuantity = useRef()
+     // const leftMoney = useRef()
+
+     const maxwithProduct = useRef("100rem")
+     const mlProducts = useRef("150px")
+     const maxWProducts = useRef("100%")
+     const leftProduct = useRef("250px")
+     const leftContent = useRef("800px")
+     const leftPrice = useRef("60px")
+     const leftQuantity = useRef("120px")
+     const leftMoney = useRef("180px")
+     // useEffect(() => {
+     //      if (isLayoutPay) {
+     //           maxwithProduct.current = "70rem"
+     //           mlProducts.current = "10px"
+     //           maxWProducts.current = "95%"
+     //           leftProduct.current = "100px"
+     //           leftContent.current = "400px"
+     //           leftPrice.current = "250px"
+     //           leftQuantity.current = "240px"
+     //           leftMoney.current = "230px"
+     //      } else {
+     //           maxwithProduct.current = "100rem"
+     //           mlProducts.current = "150px"
+     //           maxWProducts.current = "100%"
+     //           leftProduct.current = "250px"
+     //           leftContent.current = "800px"
+     //           leftPrice.current = "60px"
+     //           leftQuantity.current = "120px"
+     //           leftMoney.current = "180px"
+     //      }
+     // }, [isLayoutPay])
+
      const handlerDelProduct = (e) => {
           const productId = Number(e.target.id)
 
-          const newArray = arrayProductCart.filter(
-               (product) => product.id !== productId
-          )
+          const newArray = arrayProductCart.filter((product) => {
+               if (product.id == productId && product.userId == userNow.id) {
+                    return false
+               }
+               return true
+          })
           const newArray2 = sumQuantity.filter(
-               (quantity) => quantity.idQuantity !== productId
+               (quantity) => quantity?.idQuantity !== productId
           )
           console.log(newArray2)
           setArrayProductCart(newArray)
           setSumQuantity(newArray2)
 
-          localStorage.setItem("product", JSON.stringify(newArray))
+          // localStorage.setItem("product", JSON.stringify(newArray))
      }
 
      // const handlerDelProduct = (e) => {
@@ -121,47 +321,6 @@ const Cart = () => {
           )
      }
 
-     useEffect(() => {
-          setArrayStatusPrice(document.querySelectorAll('div[id$="_price"]'))
-     }, [arrayProductCart])
-
-     useEffect(() => {
-          const checkBoxProduct = () => {
-               let arrray = []
-               setSumProductCart(arrayStatusCheckbox.length)
-               arrayStatusCheckbox.forEach((item) => {
-                    arrayProductCart.forEach((product, index) => {
-                         let idProduct = item.id.split("_")[0]
-                         if (
-                              idProduct == product.id &&
-                              idProduct ==
-                                   arrayStatusPrice[index].id.split("_")[0]
-                         ) {
-                              arrray.push(
-                                   Number(
-                                        arrayStatusPrice[index].innerText.split(
-                                             "$"
-                                        )[0]
-                                   )
-                              )
-                         }
-                    })
-               })
-               const sumWithInitial = arrray.reduce(
-                    (accumulator, currentValue) => accumulator + currentValue,
-                    0
-               )
-               setSumPrice(sumWithInitial)
-          }
-          checkBoxProduct()
-     }, [
-          arrayStatusCheckbox.length,
-          arrayProductCart,
-          arrayStatusCheckbox,
-          arrayStatusPrice,
-          sumQuantity,
-     ])
-
      const ClickAllCheckBox = () => {
           let AllCheckBox = document.getElementById("allCheckBox")
           let AllCheckBoxProduct = document.querySelectorAll(
@@ -179,48 +338,24 @@ const Cart = () => {
                hanglerSumProduct()
           }
      }
-     useEffect(() => {
-          let AllCheckBox = document.getElementById("allCheckBox")
-          if (AllCheckBox) {
-               if (
-                    arrayStatusCheckbox.length < arrayStatusCheckboxFalse.length
-               ) {
-                    AllCheckBox.checked = false
-               } else if (
-                    arrayStatusCheckbox.length > 0 &&
-                    arrayStatusCheckbox.length ==
-                         arrayStatusCheckboxFalse.length
-               ) {
-                    AllCheckBox.checked = true
-               }
-          } else {
-               null
-          }
-     }, [
-          arrayStatusCheckbox.length,
-          arrayStatusCheckboxFalse.length,
-          arrayStatusCheckbox,
-     ])
 
      const ClickAllDelete = () => {
           if (arrayStatusCheckbox.length > 0) {
                arrayStatusCheckbox.forEach((item) => {
-                    console.log(item.id)
                     const idProductDel = item.id.split("_")[0]
-
-                    setArrayProductCart(
-                         arrayProductCart.filter((product) => {
-                              return product.id !== Number(idProductDel)
+                    console.log(idProductDel)
+                    setArrayProductCart((a) => {
+                         return a.filter((product) => {
+                              let x = false
+                              if (
+                                   product.id === Number(idProductDel) &&
+                                   product.userId == userNow.id
+                              ) {
+                                   x = true
+                              }
+                              return !x
                          })
-                    )
-                    localStorage.setItem(
-                         "product",
-                         JSON.stringify(
-                              arrayProductCart.filter((product) => {
-                                   return product.id !== Number(idProductDel)
-                              })
-                         )
-                    )
+                    })
                })
           } else {
                alert("Bạn chưa chọn sản phẩm")
@@ -234,7 +369,7 @@ const Cart = () => {
           setSumQuantity((quantitys) => {
                return quantitys.map((quantity) => {
                     if (
-                         quantity.idQuantity == e.target.id.split("_")[0] &&
+                         quantity?.idQuantity == e.target.id.split("_")[0] &&
                          quantity.sumQuantity > 0
                     ) {
                          return {
@@ -250,7 +385,7 @@ const Cart = () => {
      const handlerClickIncrease = (e) => {
           setSumQuantity((quantitys) => {
                return quantitys.map((quantity) => {
-                    if (quantity.idQuantity == e.target.id.split("_")[0]) {
+                    if (quantity?.idQuantity == e.target.id.split("_")[0]) {
                          return {
                               ...quantity,
                               sumQuantity: quantity.sumQuantity + 1,
@@ -260,33 +395,6 @@ const Cart = () => {
                })
           })
      }
-     useEffect(() => {
-          setArrayProductCart((products) => {
-               return products.map((product, index) => {
-                    if (product.id == sumQuantity[index].idQuantity) {
-                         return {
-                              ...product,
-                              quantity: sumQuantity[index].sumQuantity,
-                         }
-                    }
-                    return product
-               })
-          })
-          localStorage.setItem(
-               "product",
-               JSON.stringify(
-                    arrayProductCart?.map((product, index) => {
-                         if (product.id == sumQuantity[index].idQuantity) {
-                              return {
-                                   ...product,
-                                   quantity: sumQuantity[index].sumQuantity,
-                              }
-                         }
-                         return product
-                    })
-               )
-          )
-     }, [sumQuantity])
 
      // const handlerSumPrice = (e) => {
      //      // setSumQuantity((quantitys) => {
@@ -317,6 +425,14 @@ const Cart = () => {
      // }
      const handlerPayProduct = () => {
           setIsLayoutPay(true)
+          maxwithProduct.current = "70rem"
+          mlProducts.current = "10px"
+          maxWProducts.current = "95%"
+          leftProduct.current = "100px"
+          leftContent.current = "400px"
+          leftPrice.current = "250px"
+          leftQuantity.current = "240px"
+          leftMoney.current = "230px"
      }
      function pushHistoryToLocal(proudct) {
           if (localStorage.getItem("history") === null) {
@@ -336,7 +452,8 @@ const Cart = () => {
                          arrayStatusCheckbox.forEach((status) => {
                               if (
                                    Number(status.id.split("_")[0]) ===
-                                   product.id
+                                        product.id &&
+                                   product.userId == userNow.id
                               ) {
                                    shouldFilter = true
                               }
@@ -344,23 +461,6 @@ const Cart = () => {
                          return !shouldFilter
                     })
                })
-               localStorage.setItem(
-                    "product",
-                    JSON.stringify(
-                         arrayProductCart?.filter((product) => {
-                              let shouldFilter = false
-                              arrayStatusCheckbox.forEach((status) => {
-                                   if (
-                                        Number(status.id.split("_")[0]) ===
-                                        product.id
-                                   ) {
-                                        shouldFilter = true
-                                   }
-                              })
-                              return !shouldFilter
-                         })
-                    )
-               )
 
                setIsLayoutPay(false)
 
@@ -386,79 +486,130 @@ const Cart = () => {
           } else {
                alert("Bạn chưa chọn sản phẩm")
           }
+          maxwithProduct.current = "100rem"
+          mlProducts.current = "150px"
+          maxWProducts.current = "100%"
+          leftProduct.current = "250px"
+          leftContent.current = "800px"
+          leftPrice.current = "60px"
+          leftQuantity.current = "120px"
+          leftMoney.current = "180px"
      }
+
      return (
           <>
                {isLayoutPay ? (
                     <LayoutPay
                          allPrice={sumPrice}
-                         clickCancel={() => setIsLayoutPay(false)}
+                         clickCancel={() => {
+                              maxwithProduct.current = "100rem"
+                              mlProducts.current = "150px"
+                              maxWProducts.current = "100%"
+                              leftProduct.current = "250px"
+                              leftContent.current = "800px"
+                              leftPrice.current = "60px"
+                              leftQuantity.current = "120px"
+                              leftMoney.current = "180px"
+                              return setIsLayoutPay(false)
+                         }}
                          clickPay={clickPay}
                     />
                ) : null}
                <Banner isCart="true" />
-               {arrayProductCart?.length > 0 ? (
-                    <>
-                         <div className="flex justify-between">
-                              <div className="flex mx-[400px]">
-                                   <div className="ml-[-200px]">Sản phẩm</div>
-                              </div>
-                              <div className="flex mr-[400px]">
-                                   <div className="mx-5 relative left-[60px] w-[100px]">
-                                        Đơn giá
-                                   </div>
-                                   <div className="mx-5 relative left-[120px] w-[100px]">
-                                        Số lượng
-                                   </div>
-                                   <div className="mx-5 relative left-[180px] w-[100px] ">
-                                        Số tiền
-                                   </div>
-                                   <div className="mx-5 relative left-[140px] w-[100px]">
-                                        Thao tác
-                                   </div>
-                              </div>
-                         </div>
-                         <div className="mt-[20px]  h-[440px] overflow-auto">
-                              {arrayProductCart.map((product, index) => {
-                                   return (
-                                        <div key={`${product.id}_${index}`}>
-                                             <CartProduct
-                                                  linkPicture={
-                                                       product.thumbnail
-                                                  }
-                                                  description={
-                                                       product.description
-                                                  }
-                                                  price={product.price}
-                                                  onClick={handlerDelProduct}
-                                                  id={product.id}
-                                                  currentPrice={
-                                                       sumQuantity[index]
-                                                            .sumQuantity *
-                                                       product.price
-                                                  }
-                                                  // handlerSumPrice={
-                                                  //      handlerSumPrice
-                                                  // }
-                                                  quantitys={
-                                                       sumQuantity[index]
-                                                            .sumQuantity
-                                                  }
-                                                  onChange={hanglerSumProduct}
-                                                  allPrice={sumPrice}
-                                                  handlerClickDecrement={
-                                                       handlerClickDecrement
-                                                  }
-                                                  handlerClickIncrease={
-                                                       handlerClickIncrease
-                                                  }
-                                             />
-                                        </div>
-                                   )
-                              })}
-                         </div>
 
-                         <div>
+               {arrayProductCart?.length > 0 &&
+               arrayProductCart.some((x) => x.userId == userNow.id) ? (
+                    <>
+                         <div className={`max-w-[${maxwithProduct.current}]`}>
+                              <div className="flex ">
+                                   <div
+                                        className={`absolute left-[${leftProduct.current}]`}
+                                   >
+                                        Sản phẩm
+                                   </div>
+
+                                   <div
+                                        className={`flex absolute left-[${leftContent.current}]`}
+                                   >
+                                        <div
+                                             className={`mx-5 relative left-[${leftPrice.current}] w-[100px]`}
+                                        >
+                                             Đơn giá
+                                        </div>
+                                        <div
+                                             className={`mx-5  relative left-[${leftQuantity.current}] w-[100px]`}
+                                        >
+                                             Số lượng
+                                        </div>
+                                        <div
+                                             className={`mx-5 relative left-[${leftMoney.current}] w-[100px] `}
+                                        >
+                                             Số tiền
+                                        </div>
+                                        <div className="mx-5 relative left-[140px] w-[100px]">
+                                             Thao tác
+                                        </div>
+                                   </div>
+                              </div>
+                              <div className="mt-[20px] h-[440px] overflow-auto">
+                                   {arrayProductCart.map((product, index) => {
+                                        if (product.userId == userNow.id) {
+                                             return (
+                                                  <div
+                                                       key={`${product.id}_${index}`}
+                                                  >
+                                                       <CartProduct
+                                                            mlProducts={
+                                                                 mlProducts.current
+                                                            }
+                                                            maxWProducts={
+                                                                 maxWProducts.current
+                                                            }
+                                                            linkPicture={
+                                                                 product.thumbnail
+                                                            }
+                                                            description={
+                                                                 product.description
+                                                            }
+                                                            price={
+                                                                 product.price
+                                                            }
+                                                            onClick={
+                                                                 handlerDelProduct
+                                                            }
+                                                            id={product.id}
+                                                            currentPrice={
+                                                                 sumQuantity[
+                                                                      index
+                                                                 ]
+                                                                      ?.sumQuantity *
+                                                                 product.price
+                                                            }
+                                                            // handlerSumPrice={
+                                                            //      handlerSumPrice
+                                                            // }
+                                                            quantitys={
+                                                                 sumQuantity[
+                                                                      index
+                                                                 ]?.sumQuantity
+                                                            }
+                                                            onChange={
+                                                                 hanglerSumProduct
+                                                            }
+                                                            allPrice={sumPrice}
+                                                            handlerClickDecrement={
+                                                                 handlerClickDecrement
+                                                            }
+                                                            handlerClickIncrease={
+                                                                 handlerClickIncrease
+                                                            }
+                                                       />
+                                                  </div>
+                                             )
+                                        }
+                                   })}
+                              </div>
+
                               {
                                    <Pay
                                         sumProduct={sumProductCart}

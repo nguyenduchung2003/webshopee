@@ -8,12 +8,13 @@ import { useState, useEffect, useRef, useContext } from "react"
 import { DataContext } from "./DataContext"
 const Banner = ({ statusBanner, isCart = false }) => {
      const [isSearch, setIsSearch] = useState(false)
-     const [textSearch, setTextSearch] = useState()
+     const [textSearch, setTextSearch] = useState("")
      const [isAccount, setIsAccount] = useState(false)
      const wrapperRef = useRef(null)
      const UserName = useRef(null)
      const data = useContext(DataContext)
      const navigate = useNavigate()
+
      useEffect(() => {
           const userNow = JSON.parse(localStorage.getItem("userNow"))
           if (userNow) {
@@ -30,7 +31,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                     !wrapperRef.current.contains(event.target)
                ) {
                     setIsSearch(false)
-                    setTextSearch()
+                    setTextSearch("")
                }
           }
           document.addEventListener("mousedown", handleClickOutside)
@@ -44,7 +45,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
      }
      useEffect(() => {
           if (textSearch == "") {
-               setTextSearch()
+               setTextSearch("")
           }
      }, [textSearch])
      const handlerSearch = (e) => {
@@ -158,15 +159,21 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                   value={textSearch}
                                                   placeholder="Cơ hội trúng 88 iphone!"
                                                   onChange={handlerSearch}
+                                                  // onChange={(e) =>
+                                                  //      setTextSearch(
+                                                  //           e.target.value
+                                                  //      )
+                                                  // }
                                                   onClick={handerIsSearch}
                                              />
 
-                                             <div className="absolute left-[300px] top-[58px]">
+                                             <div className="absolute left-[120px] top-[58px] ">
                                                   {isSearch ? (
                                                        <>
                                                             {data.map(
                                                                  (
-                                                                      dataProduct
+                                                                      dataProduct,
+                                                                      index
                                                                  ) => {
                                                                       if (
                                                                            dataProduct.brand.includes(
@@ -177,18 +184,22 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                            )
                                                                       ) {
                                                                            return (
-                                                                                <>
+                                                                                <div
+                                                                                     key={
+                                                                                          index
+                                                                                     }
+                                                                                >
                                                                                      <NavLink
                                                                                           to={`/webshopee/products/${dataProduct.id}`}
                                                                                           state={
                                                                                                data
                                                                                           }
                                                                                           className={
-                                                                                               "relative z-50 w-[700px] h-10  "
+                                                                                               "relative z-50 w-[700px]  h-10  "
                                                                                           }
                                                                                      >
                                                                                           <div
-                                                                                               className="border-2 relative z-50 w-[700px] h-10  bg-slate-300"
+                                                                                               className="border-2 relative z-50 w-[700px] h-10  bg-slate-300 "
                                                                                                onClick={
                                                                                                     onClickSearch
                                                                                                }
@@ -198,7 +209,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                                                }
                                                                                           </div>
                                                                                      </NavLink>
-                                                                                </>
+                                                                                </div>
                                                                            )
                                                                       }
                                                                  }
@@ -231,15 +242,21 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                   value={textSearch}
                                                   placeholder="Cơ hội trúng 88 iphone!"
                                                   onChange={handlerSearch}
+                                                  // onChange={(e) =>
+                                                  //      setTextSearch(
+                                                  //           e.target.value
+                                                  //      )
+                                                  // }
                                                   onClick={handerIsSearch}
                                              />
 
-                                             <div className="absolute left-[300px] top-[58px]">
+                                             <div className="absolute left-[120px] top-[58px]">
                                                   {isSearch ? (
                                                        <>
                                                             {data.map(
                                                                  (
-                                                                      dataProduct
+                                                                      dataProduct,
+                                                                      index
                                                                  ) => {
                                                                       if (
                                                                            dataProduct.brand.includes(
@@ -250,7 +267,11 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                            )
                                                                       ) {
                                                                            return (
-                                                                                <>
+                                                                                <div
+                                                                                     key={
+                                                                                          index
+                                                                                     }
+                                                                                >
                                                                                      <NavLink
                                                                                           to={`/webshopee/products/${dataProduct.id}`}
                                                                                           state={
@@ -271,7 +292,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                                                                                }
                                                                                           </div>
                                                                                      </NavLink>
-                                                                                </>
+                                                                                </div>
                                                                            )
                                                                       }
                                                                  }

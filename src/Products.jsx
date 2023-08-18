@@ -7,20 +7,24 @@ const Products = () => {
      const [currentImg, setCurrentImg] = useState(0)
      const [quantity, setQuantity] = useState(1)
      const [product, setProduct] = useState(
-          state.find((product) => product.id === Number(id))
+          []
+          // state.find((product) => product.id === Number(id))
      )
+     useEffect(() => {
+          setProduct(state.find((product) => product.id === Number(id)))
+     }, [state, id])
      const UserId = useRef(null)
      const hoverImg = (index) => {
           setCurrentImg(index)
      }
+     const userNow = JSON.parse(localStorage.getItem("userNow"))
      useEffect(() => {
-          const userNow = JSON.parse(localStorage.getItem("userNow"))
           if (userNow) {
                UserId.current = userNow.id
           } else {
                null
           }
-     }, [])
+     }, [userNow])
 
      useEffect(() => {
           setProduct(state.find((product) => product.id === Number(id)))
@@ -35,7 +39,25 @@ const Products = () => {
           }
           const products = JSON.parse(localStorage.getItem("product"))
 
-          products.push(product)
+          if (
+               products.some(
+                    (productCheck) =>
+                         productCheck.id === product.id &&
+                         productCheck.userId === userNow.id
+               )
+          ) {
+               products.map((productCheck) => {
+                    if (
+                         productCheck.id === product.id &&
+                         productCheck.userId === userNow.id
+                    ) {
+                         return (productCheck.quantity += product.quantity)
+                    }
+               })
+          } else {
+               products.push(product)
+          }
+
           localStorage.setItem("product", JSON.stringify(products))
      }
      const handlerAddCart = () => {
@@ -69,7 +91,7 @@ const Products = () => {
                     <div className="w-[505px] h-[540px] mx-10">
                          <div>
                               {product
-                                   ? product.images.map((image, index) => {
+                                   ? product.images?.map((image, index) => {
                                           return (
                                                <div key={index}>
                                                     {index === currentImg ? (
@@ -85,7 +107,7 @@ const Products = () => {
                          </div>
                          <div className="flex w-[100px]  relative bottom-[-10px] ">
                               {product
-                                   ? product.images.map((image, index) => (
+                                   ? product.images?.map((image, index) => (
                                           <img
                                                key={index}
                                                src={image}

@@ -3,10 +3,18 @@ import logoShopee from "./Picture/logoShopee.png"
 import imgRegister from "./Picture/imgRegister.jpg"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons"
+
 const Login = () => {
      const navigate = useNavigate()
      const [textAccount, setTextAccount] = useState("")
      const [textPassword, setTextPassword] = useState("")
+     const [visible, setVisibility] = useState(false)
+     const onClickEye = () => {
+          setVisibility(!visible)
+     }
+
+     const InputType = visible ? "text" : "password"
 
      const handlerAccountChange = (e) => {
           setTextAccount(e.target.value)
@@ -54,10 +62,10 @@ const Login = () => {
                     <h1 className="leading-[50px]">ĐĂNG NHẬP</h1>
                </div>
                <div
-                    className={`w-[1920px] h-[600px] bg-[#FFEBE2] bg-no-repeat mt-[50px]`}
+                    className={`w-full h-[600px] bg-[#FFEBE2] bg-no-repeat mt-[50px]`}
                     style={{ backgroundImage: `url(${imgRegister})` }}
                >
-                    <div className="bg-white w-[425px] h-[320px] relative left-[1200px] top-[120px] rounded">
+                    <div className="bg-white w-[425px] h-[320px] relative left-[900px] top-[120px] rounded">
                          <div className="flex justify-center text-2xl relative top-[10px]">
                               Đăng nhập
                          </div>
@@ -74,11 +82,22 @@ const Login = () => {
                               <div className="flex">
                                    <div>Mật khẩu</div>
                                    <input
-                                        type="text"
+                                        type={InputType}
                                         className="border-2"
                                         value={textPassword}
                                         onChange={handlerPasswordChange}
                                    />
+                                   <div className="mt-[-3px]">
+                                        {visible ? (
+                                             <EyeOutlined
+                                                  onClick={onClickEye}
+                                             />
+                                        ) : (
+                                             <EyeInvisibleOutlined
+                                                  onClick={onClickEye}
+                                             />
+                                        )}
+                                   </div>
                               </div>
                          </div>
                          <button

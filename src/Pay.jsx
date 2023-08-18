@@ -2,29 +2,30 @@ import PropTypes from "prop-types"
 const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
      return (
           <>
-               <div className="flex justify-between absolute left-[150px]">
-                    <div className="flex ">
+               <div className="flex justify-between left-[150px]">
+                    <div className="flex mt-10 ml-[100px]">
                          <div className="mx-10 flex">
                               <input
                                    type="checkbox"
                                    onChange={onChange}
                                    id="allCheckBox"
+                                   className="mt-[-8px]"
                               />
-                              <label htmlFor="allCheckBox" className="mt-[7px]">
+                              <label htmlFor="allCheckBox" className="mt-[2px]">
                                    Chọn tất cả
                               </label>
                          </div>
 
-                         <div onClick={onClickAll} className="mt-[7px]">
+                         <div onClick={onClickAll} className="mt-[2px]">
                               Xóa
                          </div>
                     </div>
-                    <div className="flex relative left-[550px]">
-                         <div className="relative left-[100px] w-[200px] mt-[7px]">
+                    <div className="flex relative mt-10 mr-5">
+                         <div className="relative  w-[200px] mt-[7px] mr-10">
                               Tổng sản phẩm ({sumProduct}):{sumPrice} $
                          </div>
                          <button
-                              className="relative left-[179px] w-[210px] h-[40px] bg-red-500"
+                              className="relative  w-[210px] h-[40px] bg-red-500"
                               onClick={onClick}
                          >
                               Mua hàng

@@ -19,20 +19,19 @@ const CategoryChildren = () => {
           <>
                <Banner />
                <Category data={dataProduct} />
-               <div className="flex flex-wrap w-[1200px] relative left-[300px] ">
-                    {linkDataCategory.map((product) => {
+               <div className="flex flex-wrap w-[1200px] relative left-[225px]">
+                    {linkDataCategory.map((product, index) => {
                          if (product.category == linkCategory) {
                               return (
-                                   <>
-                                        <LayoutProduct
-                                             thumbnail={product.thumbnail}
-                                             title={product.title}
-                                             description={product.description}
-                                             price={product.price}
-                                             id={product.id}
-                                             data={state.data}
-                                        />
-                                   </>
+                                   <LayoutProduct
+                                        thumbnail={product.thumbnail}
+                                        title={product.title}
+                                        description={product.description}
+                                        price={product.price}
+                                        id={product.id}
+                                        data={state.data}
+                                        key={index}
+                                   />
                               )
                          } else {
                               null

@@ -12,16 +12,20 @@ const CartProduct = ({
      quantitys,
      handlerSumPrice,
      currentPrice,
+     mlProducts = "150px", //10
+     maxWProducts = "100%", //90
 }) => {
      return (
           <>
-               <div className="flex border-2 mb-5 w-[1300px] h-[120px] ml-[150px] justify-between mt-[17px]">
+               <div
+                    className={`flex border-2 mb-5 w-[1300px] h-[120px] ml-[${mlProducts}] justify-between mt-[17px] max-w-[${maxWProducts}]`}
+               >
                     <input
                          type="checkbox"
                          id={`${id}_checkbox`}
                          defaultChecked={statusCheckbox}
                          onChange={onChange}
-                         className="relative left-[50px] scale-[1.75]"
+                         className="relative left-[7px] scale-[1.75] w-[10px] h-[10px] my-auto"
                     />
                     <div className="flex">
                          <img
@@ -35,7 +39,7 @@ const CartProduct = ({
                     </div>
                     <div className=" my-[auto] mx-0 w-7">{price}$</div>
                     <input
-                         className="border-2 w-[30px] h-[40px] relative my-[auto] left-[46px]"
+                         className="border-2 w-[38px] h-[40px] relative my-[auto] left-[46px]"
                          type="button"
                          value="-"
                          onClick={handlerClickDecrement}
@@ -51,7 +55,7 @@ const CartProduct = ({
                          onChange={handlerSumPrice}
                     />
                     <input
-                         className="border-2 w-[30px] h-[40px] relative my-[auto] left-[-47px]"
+                         className="border-2 w-[38px] h-[40px] relative my-[auto] left-[-47px]"
                          type="button"
                          value="+"
                          onClick={handlerClickIncrease}
@@ -88,5 +92,7 @@ CartProduct.propTypes = {
      quantitys: PropTypes.any,
      handlerSumPrice: PropTypes.any,
      currentPrice: PropTypes.any,
+     mlProducts: PropTypes.any,
+     maxWProducts: PropTypes.any,
 }
 export default CartProduct
