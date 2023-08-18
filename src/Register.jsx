@@ -72,7 +72,7 @@ const Register = () => {
                return
           }
           const accounts = JSON.parse(localStorage.getItem("account"))
-          if (accounts.some((account) => account.account == User.account)) {
+          if (accounts?.some((account) => account.account == User.account)) {
                return
           } else {
                accounts.push(account)
