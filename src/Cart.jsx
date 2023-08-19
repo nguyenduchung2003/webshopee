@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import CartProduct from "./CartProduct"
 import Pay from "./Pay"
 import Banner from "./Banner"
@@ -25,16 +25,6 @@ const Cart = () => {
           document.querySelectorAll('input[type="checkbox"][id$="_checkbox"]')
      )
 
-     // const [sumQuantity, setSumQuantity] = useState(
-     //      arrayProductCart?.map((product) => {
-     //           if (product.userId == userNow.id) {
-     //                return {
-     //                     idQuantity: product.id,
-     //                     sumQuantity: product.quantity,
-     //                }
-     //           } else return []
-     //      })
-     // )
      const [sumQuantity, setSumQuantity] = useState(
           arrayProductCart?.map((product) => {
                if (product.userId == userNow.id) {
@@ -48,63 +38,10 @@ const Cart = () => {
      const [arrayStatusPrice, setArrayStatusPrice] = useState(
           document.querySelectorAll('div[id$="_price"]')
      )
-     // useEffect(() => {
-     //      const updatedSumQuantity = arrayProductCart?.map((product) => {
-     //           if (product.userId === userNow.id) {
-     //                return {
-     //                     idQuantity: product.id,
-     //                     sumQuantity: product.quantity,
-     //                }
-     //           }
-     //           return null
-     //      })
-     //      if (
-     //           JSON.stringify(updatedSumQuantity) !==
-     //           JSON.stringify(sumQuantity)
-     //      ) {
-     //           setSumQuantity(updatedSumQuantity)
-     //      }
-     // }, [arrayProductCart, userNow])
+
      const [isLayoutPay, setIsLayoutPay] = useState(false)
 
-     // const prevArrayProductCartRef = useRef(sumQuantity)
      const navigate = useNavigate()
-     // useEffect(() => {
-     //      if (userNow) {
-     //           setArrayProductCart((a) =>
-     //                a?.filter((product) => {
-     //                     return product.userId == userNow.id
-     //                })
-     //           )
-     //      } else {
-     //           null
-     //      }
-     // }, [])
-
-     // const handlerDelProduct = (e) => {
-     //      let found = false
-     //      const productId = Number(e.target.id)
-     //      const newArray = arrayProductCart.filter((product) => {
-     //           if (product.id === productId && !found) {
-     //                found = true
-     //                return false
-     //           }
-     //           return true
-     //      })
-     //      const newArray2 = sumQuantity.filter((product) => {
-     //           if (product.idQuantity === productId && !found) {
-     //                found = true
-     //                return false
-     //           }
-     //           return true
-     //      })
-
-     //      console.log(newArray)
-     //      console.log(newArray2)
-     //      setArrayProductCart(newArray)
-     //      setSumQuantity(newArray2)
-     //      localStorage.setItem("product", JSON.stringify(newArray))
-     // }
 
      useEffect(() => {
           setArrayStatusPrice(document.querySelectorAll('div[id$="_price"]'))
@@ -116,7 +53,6 @@ const Cart = () => {
      useEffect(() => {
           const checkBoxProduct = () => {
                let arrray = []
-               // setSumProductCart(arrayStatusCheckbox.length)
                arrayStatusCheckbox.forEach((item) => {
                     arrayProductCart.forEach((product) => {
                          arrayStatusPrice.forEach((value) => {
@@ -179,87 +115,9 @@ const Cart = () => {
           })
      }, [userNow.id, sumQuantity])
 
-     // useEffect(() => {
-     //      if (prevArrayProductCartRef.current.length === 0) {
-     //           prevArrayProductCartRef.current = sumQuantity
-     //           return
-     //      }
-
-     //      setArrayProductCart((products) => {
-     //           return products.map((product, index) => {
-     //                const prevCartItem = prevArrayProductCartRef.current[index]
-
-     //                if (
-     //                     prevCartItem &&
-     //                     product.id === prevCartItem.idQuantity &&
-     //                     product.userId === userNow.id
-     //                ) {
-     //                     return {
-     //                          ...product,
-     //                          quantity: prevCartItem.sumQuantity,
-     //                     }
-     //                }
-     //                return product
-     //           })
-     //      })
-
-     //      prevArrayProductCartRef.current = sumQuantity
-     // }, [userNow, sumQuantity])
-
      useEffect(() => {
           localStorage.setItem("product", JSON.stringify(arrayProductCart))
      }, [arrayProductCart])
-     // useEffect(() => {
-     //      const storedProduct = JSON.parse(
-     //           localStorage.getItem("product") || "[]"
-     //      )
-     //      if (
-     //           JSON.stringify(storedProduct) !==
-     //           JSON.stringify(arrayProductCart)
-     //      ) {
-     //           localStorage.setItem("product", JSON.stringify(arrayProductCart))
-     //      }
-     // }, [arrayProductCart])
-     // const prevArrayProductCartRef = useRef(arrayProductCart)
-
-     // useEffect(() => {
-     //      const prevArrayProductCart = prevArrayProductCartRef.current
-
-     //      if (prevArrayProductCart !== arrayProductCart) {
-     //           localStorage.setItem("product", JSON.stringify(arrayProductCart))
-     //           prevArrayProductCartRef.current = arrayProductCart
-     //      }
-     // }, [arrayProductCart])
-     // const maxwithProduct = useRef()
-     // const mlProducts = useRef()
-     // const maxWProducts = useRef()
-     // const leftProduct = useRef()
-     // const leftContent = useRef()
-     // const leftPrice = useRef()
-     // const leftQuantity = useRef()
-     // const leftMoney = useRef()
-
-     // useEffect(() => {
-     //      if (isLayoutPay) {
-     //           maxwithProduct.current = "70rem"
-     //           mlProducts.current = "10px"
-     //           maxWProducts.current = "95%"
-     //           leftProduct.current = "100px"
-     //           leftContent.current = "400px"
-     //           leftPrice.current = "250px"
-     //           leftQuantity.current = "240px"
-     //           leftMoney.current = "230px"
-     //      } else {
-     //           maxwithProduct.current = "100rem"
-     //           mlProducts.current = "150px"
-     //           maxWProducts.current = "100%"
-     //           leftProduct.current = "250px"
-     //           leftContent.current = "800px"
-     //           leftPrice.current = "60px"
-     //           leftQuantity.current = "120px"
-     //           leftMoney.current = "180px"
-     //      }
-     // }, [isLayoutPay])
 
      const handlerDelProduct = (e) => {
           const productId = Number(e.target.id)
@@ -276,29 +134,7 @@ const Cart = () => {
           console.log(newArray2)
           setArrayProductCart(newArray)
           setSumQuantity(newArray2)
-
-          // localStorage.setItem("product", JSON.stringify(newArray))
      }
-
-     // const handlerDelProduct = (e) => {
-     //      const productId = Number(e.target.id)
-
-     //      setArrayProductCart((prevArrayProductCart) => {
-     //           const removedProductIndex = prevArrayProductCart.findIndex(
-     //                (product) => product.id === productId
-     //           )
-
-     //           const newArrayProductCart = [...prevArrayProductCart]
-     //           newArrayProductCart.splice(removedProductIndex, 1)
-
-     //           localStorage.setItem(
-     //                "product",
-     //                JSON.stringify(newArrayProductCart)
-     //           )
-
-     //           return newArrayProductCart
-     //      })
-     // }
 
      const hanglerSumProduct = () => {
           setArrayStatusCheckbox(
@@ -373,7 +209,6 @@ const Cart = () => {
                })
           })
      }
-
      const handlerClickIncrease = (e) => {
           setSumQuantity((quantitys) => {
                return quantitys.map((quantity) => {
@@ -387,28 +222,8 @@ const Cart = () => {
                })
           })
      }
-
-     const maxwithProduct = useRef("100rem")
-     const mlProducts = useRef("120px")
-     const maxWProducts = useRef("100%")
-     const leftProduct = useRef("250px")
-     const leftContent = useRef("800px")
-     const leftPrice = useRef("40px")
-     const leftQuantity = useRef("190px")
-     const leftMoney = useRef("335px")
-     const leftActive = useRef("370px")
-
      const handlerPayProduct = () => {
           setIsLayoutPay(true)
-          maxwithProduct.current = "75rem"
-          mlProducts.current = "10px"
-          maxWProducts.current = "90%"
-          leftProduct.current = "100px"
-          leftContent.current = "400px"
-          leftPrice.current = "270px"
-          leftQuantity.current = "365px"
-          leftMoney.current = "440px"
-          leftActive.current = "440px"
      }
      function pushHistoryToLocal(proudct) {
           if (localStorage.getItem("history") === null) {
@@ -438,8 +253,6 @@ const Cart = () => {
                     })
                })
 
-               setIsLayoutPay(false)
-
                let productHistory = {
                     arrayProduct: arrayProductCart.filter((product) => {
                          let shouldFilter = false
@@ -459,78 +272,59 @@ const Cart = () => {
                     time: moment().format("DD/MM/YYYY"),
                }
                pushHistoryToLocal(productHistory)
+               setIsLayoutPay(false)
           } else {
                alert("Bạn chưa chọn sản phẩm")
           }
-          maxwithProduct.current = "100rem"
-          mlProducts.current = "120px"
-          maxWProducts.current = "100%"
-          leftProduct.current = "250px"
-          leftContent.current = "800px"
-          leftPrice.current = "40px"
-          leftQuantity.current = "190px"
-          leftMoney.current = "335px"
-          leftActive.current = "370px"
+     }
+     const clickCancel = () => {
+          setIsLayoutPay(false)
      }
 
      return (
           <>
+               <Banner isCart="true" />
                {isLayoutPay ? (
                     <LayoutPay
                          allPrice={sumPrice}
-                         clickCancel={() => {
-                              maxwithProduct.current = "100rem"
-                              mlProducts.current = "120px"
-                              maxWProducts.current = "100%"
-                              leftProduct.current = "250px"
-                              leftContent.current = "800px"
-                              leftPrice.current = "40px"
-                              leftQuantity.current = "190px"
-                              leftMoney.current = "335px"
-                              leftActive.current = "370px"
-                              return setIsLayoutPay(false)
-                         }}
+                         clickCancel={clickCancel}
                          clickPay={clickPay}
                     />
                ) : null}
-               <Banner isCart="true" />
-
                {arrayProductCart?.length > 0 &&
                arrayProductCart.some((x) => x.userId == userNow.id) ? (
                     <>
-                         <div className={` max-w-[${maxwithProduct.current}]`}>
-                              {/* <div className="flex "> */}
+                         <div className={`max-w-[100rem]`}>
                               <div
-                                   className={`absolute top-[130px] left-[${leftProduct.current}]`}
+                                   className={`absolute ${
+                                        isLayoutPay
+                                             ? "top-[590px]"
+                                             : "top-[130px]"
+                                   }  left-[250px]`}
                               >
                                    Sản phẩm
                               </div>
-                              {/* left-[${leftContent.current}]  */}
+
                               <div
-                                   className={`flex absolute top-[130px] left-[${leftContent.current}]`}
+                                   className={`flex absolute ${
+                                        isLayoutPay
+                                             ? "top-[590px]"
+                                             : "top-[130px]"
+                                   } left-[700px]`}
                               >
-                                   <div
-                                        className={`relative left-[${leftPrice.current}]`}
-                                   >
+                                   <div className={`relative left-[40px]`}>
                                         Đơn giá
                                    </div>
-                                   <div
-                                        className={`relative left-[${leftQuantity.current}] `}
-                                   >
+                                   <div className={`relative left-[190px] `}>
                                         Số lượng
                                    </div>
-                                   <div
-                                        className={`relative left-[${leftMoney.current}]`}
-                                   >
+                                   <div className={`relative left-[335px]`}>
                                         Số tiền
                                    </div>
-                                   <div
-                                        className={`relative left-[${leftActive.current}] `}
-                                   >
+                                   <div className={`relative left-[370px] `}>
                                         Thao tác
                                    </div>
                               </div>
-                              {/* </div> */}
                               <div className="mt-[20px] h-[440px] overflow-auto">
                                    {arrayProductCart.map((product, index) => {
                                         if (product.userId == userNow.id) {
@@ -539,12 +333,6 @@ const Cart = () => {
                                                        key={`${product.id}_${index}`}
                                                   >
                                                        <CartProduct
-                                                            mlProducts={
-                                                                 mlProducts.current
-                                                            }
-                                                            maxWProducts={
-                                                                 maxWProducts.current
-                                                            }
                                                             linkPicture={
                                                                  product.thumbnail
                                                             }
@@ -565,9 +353,6 @@ const Cart = () => {
                                                                       ?.sumQuantity *
                                                                  product.price
                                                             }
-                                                            // handlerSumPrice={
-                                                            //      handlerSumPrice
-                                                            // }
                                                             quantitys={
                                                                  sumQuantity[
                                                                       index

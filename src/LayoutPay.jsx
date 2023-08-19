@@ -15,51 +15,57 @@ const LayoutPay = ({ clickPay, clickCancel, allPrice }) => {
      }
      return (
           <>
-               <div className="border-2 w-[400px] h-[460px] absolute top-[188px] right-0">
-                    <button className="absolute right-0" onClick={clickCancel}>
+               <div className="border-2 w-full h-[460px] text-center flex flex-col justify-center items-center">
+                    <button
+                         className="relative left-[740px] top-[5px]"
+                         onClick={clickCancel}
+                    >
                          X
                     </button>
                     <div className="text-center">Phiếu thanh toán</div>
-                    <div className="flex relative top-5">
-                         <label htmlFor="name">Tên người nhận :</label>
-                         <input
-                              type="text"
-                              id="name"
-                              placeholder="Tên người nhận"
-                              className="border-2 "
-                              value={name}
-                              onChange={changeName}
-                         />
+                    <div>
+                         <div className="flex relative top-5">
+                              <label htmlFor="name">Tên người nhận :</label>
+                              <input
+                                   type="text"
+                                   id="name"
+                                   placeholder="Tên người nhận"
+                                   className="border-2 "
+                                   value={name}
+                                   onChange={changeName}
+                              />
+                         </div>
+                         <div className="flex relative top-10 ">
+                              <label htmlFor="phone">Số điện thoại :</label>
+                              <input
+                                   type="text"
+                                   name=""
+                                   id="phone"
+                                   placeholder="Số điện thoại người nhận"
+                                   className="border-2 "
+                                   value={phone}
+                                   onChange={changePhone}
+                              />
+                         </div>
+                         <div className="flex relative top-[60px]">
+                              <label htmlFor="address">Địa chỉ :</label>
+                              <textarea
+                                   id="address"
+                                   cols="40"
+                                   rows="7"
+                                   className="border-2"
+                                   placeholder="Địa chỉ người nhận"
+                                   value={address}
+                                   onChange={changeAddress}
+                              ></textarea>
+                         </div>
                     </div>
-                    <div className="flex relative top-10">
-                         <label htmlFor="phone">Số điện thoại :</label>
-                         <input
-                              type="text"
-                              name=""
-                              id="phone"
-                              placeholder="Số điện thoại người nhận"
-                              className="border-2 "
-                              value={phone}
-                              onChange={changePhone}
-                         />
-                    </div>
-                    <div className="flex relative top-[60px]">
-                         <label htmlFor="address">Địa chỉ :</label>
-                         <textarea
-                              id="address"
-                              cols="40"
-                              rows="7"
-                              className="border-2"
-                              placeholder="Địa chỉ người nhận"
-                              value={address}
-                              onChange={changeAddress}
-                         ></textarea>
-                    </div>
+
                     <div className="relative top-[100px]">
                          Tổng tiền : {`${allPrice}`} $
                     </div>
                     <button
-                         className="relative my-[auto] top-[130px] left-[100px]  w-[210px] h-[40px] bg-red-500"
+                         className="relative my-[auto] top-[60px] left-[50px]  w-[210px] h-[40px] bg-red-500"
                          onClick={clickPay}
                     >
                          Đặt hàng

@@ -12,13 +12,11 @@ const CartProduct = ({
      quantitys,
      handlerSumPrice,
      currentPrice,
-     mlProducts, //10
-     maxWProducts, //90
 }) => {
      return (
           <>
                <div
-                    className={`flex border-2 mb-5 w-[1300px] h-[120px] ml-[${mlProducts}] justify-between mt-[17px] max-w-[${maxWProducts}] `}
+                    className={`flex border-2 mb-5 w-[1300px] h-[120px] ml-[130px] justify-between mt-[17px]  `}
                >
                     <input
                          type="checkbox"
