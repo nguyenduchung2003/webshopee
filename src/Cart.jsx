@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import CartProduct from "./CartProduct"
 import Pay from "./Pay"
 import Banner from "./Banner"
@@ -9,65 +9,89 @@ import { v4 as uuidv4 } from "uuid"
 import moment from "moment"
 const Cart = () => {
      const userNow = JSON.parse(localStorage.getItem("userNow"))
-     const [arrayProductCart, setArrayProductCart] = useState(
-          JSON.parse(localStorage.getItem("product") || "[]")
+     const initialProductCart = JSON.parse(
+          localStorage.getItem("product") || "[]"
      )
+     const [arrayProductCart, setArrayProductCart] = useState(
+          initialProductCart.filter((product) => product.userId == userNow.id)
+     )
+
+     const dataProductOther = useRef(
+          initialProductCart.filter((product) => product.userId != userNow.id)
+     )
+
+     useEffect(() => {}, [arrayProductCart, userNow.id])
+     useEffect(() => {
+          let dataLocal = [...arrayProductCart, ...dataProductOther.current]
+          localStorage.setItem("product", JSON.stringify(dataLocal))
+     }, [arrayProductCart, dataProductOther])
 
      const [sumProductCart, setSumProductCart] = useState(0)
      const [sumPrice, setSumPrice] = useState(0)
-     const [arrayStatusCheckbox, setArrayStatusCheckbox] = useState(
-          document.querySelectorAll(
-               'input[type="checkbox"][id$="_checkbox"]:checked'
-          )
-     )
 
-     const [arrayStatusCheckboxFalse, setArrayStatusCheckboxFalse] = useState(
-          document.querySelectorAll('input[type="checkbox"][id$="_checkbox"]')
+     const [statusCheckBox, setStatusCheckBox] = useState(
+          arrayProductCart
+               ?.filter((product) => product.userId === userNow.id)
+               .map((product) => ({
+                    idCheckBox: product.id,
+                    statusCheckBoxProduct: false,
+               }))
      )
 
      const [sumQuantity, setSumQuantity] = useState(
-          arrayProductCart?.map((product) => {
-               if (product.userId == userNow.id) {
+          arrayProductCart
+               ?.filter((product) => product.userId === userNow.id)
+               .map((product) => {
                     return {
                          idQuantity: product.id,
                          sumQuantity: product.quantity,
                     }
-               } else return []
-          })
+               })
      )
      const [arrayStatusPrice, setArrayStatusPrice] = useState(
-          document.querySelectorAll('div[id$="_price"]')
+          arrayProductCart
+               ?.filter((product) => product.userId === userNow.id)
+               .map((product) => ({
+                    idPrice: product.id,
+                    sumPrice: product.quantity * product.price,
+               }))
      )
 
      const [isLayoutPay, setIsLayoutPay] = useState(false)
+     const [allChecked, setAllChecked] = useState(false)
 
      const navigate = useNavigate()
 
      useEffect(() => {
-          setArrayStatusPrice(document.querySelectorAll('div[id$="_price"]'))
-     }, [arrayProductCart])
+          setArrayStatusPrice(
+               arrayProductCart
+                    ?.filter((product) => product.userId === userNow.id)
+                    .map((product) => ({
+                         idPrice: product.id,
+                         sumPrice: product.quantity * product.price,
+                    }))
+          )
+     }, [arrayProductCart, userNow.id])
+
      useEffect(() => {
-          setSumProductCart(arrayStatusCheckbox.length)
-     }, [arrayStatusCheckbox.length])
+          setSumProductCart(
+               statusCheckBox.filter(
+                    (status) => status.statusCheckBoxProduct == true
+               ).length
+          )
+     }, [statusCheckBox])
 
      useEffect(() => {
           const checkBoxProduct = () => {
                let arrray = []
-               arrayStatusCheckbox.forEach((item) => {
-                    arrayProductCart.forEach((product) => {
-                         arrayStatusPrice.forEach((value) => {
-                              let idProduct = item.id.split("_")[0]
-
-                              if (
-                                   idProduct == product.id &&
-                                   idProduct == value.id.split("_")[0] &&
-                                   product.userId == userNow.id
-                              ) {
-                                   arrray.push(
-                                        Number(value.innerText.split("$")[0])
-                                   )
-                              }
-                         })
+               statusCheckBox.forEach((item) => {
+                    arrayStatusPrice.forEach((value) => {
+                         if (
+                              item.statusCheckBoxProduct == true &&
+                              item.idCheckBox == value.idPrice
+                         ) {
+                              arrray.push(Number(value.sumPrice))
+                         } else return
                     })
                })
                const sumWithInitial = arrray.reduce(
@@ -77,116 +101,136 @@ const Cart = () => {
                setSumPrice(sumWithInitial)
           }
           checkBoxProduct()
-     }, [arrayProductCart, arrayStatusCheckbox, arrayStatusPrice, userNow])
+     }, [statusCheckBox, arrayStatusPrice])
 
      useEffect(() => {
-          let AllCheckBox = document.getElementById("allCheckBox")
-          if (AllCheckBox) {
-               if (
-                    arrayStatusCheckbox.length < arrayStatusCheckboxFalse.length
-               ) {
-                    AllCheckBox.checked = false
-               } else if (
-                    arrayStatusCheckbox.length > 0 &&
-                    arrayStatusCheckbox.length ==
-                         arrayStatusCheckboxFalse.length
-               ) {
-                    AllCheckBox.checked = true
-               }
-          } else {
-               null
-          }
-     }, [arrayStatusCheckbox.length, arrayStatusCheckboxFalse.length])
-
-     useEffect(() => {
-          setArrayProductCart((products) => {
-               return products.map((product, index) => {
-                    if (
-                         product.id == sumQuantity[index]?.idQuantity &&
-                         product.userId == userNow.id
-                    ) {
-                         return {
-                              ...product,
-                              quantity: sumQuantity[index]?.sumQuantity,
-                         }
-                    }
-                    return product
+          setSumQuantity((quantitys) => {
+               const updatedQuantitys = quantitys.filter((quantity) => {
+                    return arrayProductCart.some(
+                         (product) => product.id === quantity.idQuantity
+                    )
                })
+               return updatedQuantitys
           })
-     }, [userNow.id, sumQuantity])
-
+          setStatusCheckBox((productCheckBox) => {
+               const updatedQuantitys = productCheckBox.filter(
+                    (productCheckBox) => {
+                         return arrayProductCart.some(
+                              (product) =>
+                                   product.id === productCheckBox.idCheckBox
+                         )
+                    }
+               )
+               return updatedQuantitys
+          })
+     }, [arrayProductCart])
      useEffect(() => {
-          localStorage.setItem("product", JSON.stringify(arrayProductCart))
+          if (
+               statusCheckBox.every(
+                    (CheckBox) => CheckBox.statusCheckBoxProduct == true
+               )
+          ) {
+               setAllChecked(true)
+          } else if (
+               statusCheckBox.some(
+                    (CheckBox) => CheckBox.statusCheckBoxProduct == false
+               )
+          ) {
+               setAllChecked(false)
+          }
+     }, [statusCheckBox])
+     useEffect(() => {
+          setStatusCheckBox((prevCheckBoxes) => {
+               const updatedCheckBoxes = prevCheckBoxes.filter((checkBox) => {
+                    return arrayProductCart.some(
+                         (product) => product.id === checkBox.idCheckBox
+                    )
+               })
+
+               return updatedCheckBoxes
+          })
      }, [arrayProductCart])
 
      const handlerDelProduct = (e) => {
           const productId = Number(e.target.id)
 
           const newArray = arrayProductCart.filter((product) => {
-               if (product.id == productId && product.userId == userNow.id) {
+               if (product.id == productId) {
                     return false
                }
                return true
           })
-          const newArray2 = sumQuantity.filter(
-               (quantity) => quantity?.idQuantity !== productId
-          )
-          console.log(newArray2)
           setArrayProductCart(newArray)
-          setSumQuantity(newArray2)
      }
 
-     const hanglerSumProduct = () => {
-          setArrayStatusCheckbox(
-               document.querySelectorAll(
-                    'input[type="checkbox"][id$="_checkbox"]:checked'
-               )
-          )
-          setArrayStatusCheckboxFalse(
-               document.querySelectorAll(
-                    'input[type="checkbox"][id$="_checkbox"]'
-               )
-          )
+     const clickCheckBoxProduct = (e) => {
+          let clickedProductId = e.target.id.split("_")[0]
+          setStatusCheckBox((prevStatusCheckBox) => {
+               return prevStatusCheckBox.map((status) => {
+                    if (status.idCheckBox == clickedProductId) {
+                         return {
+                              ...status,
+                              statusCheckBoxProduct:
+                                   !status.statusCheckBoxProduct,
+                         }
+                    }
+                    return status
+               })
+          })
      }
 
-     const ClickAllCheckBox = () => {
-          let AllCheckBox = document.getElementById("allCheckBox")
-          let AllCheckBoxProduct = document.querySelectorAll(
-               'input[type="checkbox"][id$="_checkbox"]'
-          )
-          if (AllCheckBox.checked) {
-               AllCheckBoxProduct.forEach((CheckBox) => {
-                    CheckBox.checked = true
+     const onClickCheckBoxAll = () => {
+          setAllChecked(!allChecked)
+          setStatusCheckBox((status) => {
+               return status.map((CheckBox) => {
+                    return {
+                         ...CheckBox,
+                         statusCheckBoxProduct: !allChecked,
+                    }
                })
-               hanglerSumProduct()
-          } else {
-               AllCheckBoxProduct.forEach((CheckBox) => {
-                    CheckBox.checked = false
-               })
-               hanglerSumProduct()
-          }
+          })
+
+          // console.log(statusCheckBox)
+          // const updatedStatusCheckBox = statusCheckBox.map((checkBox) => ({
+          //      ...checkBox,
+          //      statusCheckBoxProduct: !allChecked,
+          // }))
+          // setStatusCheckBox(updatedStatusCheckBox)
+          // setAllChecked(!allChecked)
      }
 
      const ClickAllDelete = () => {
-          if (arrayStatusCheckbox.length > 0) {
-               arrayStatusCheckbox.forEach((item) => {
-                    const idProductDel = item.id.split("_")[0]
-                    console.log(idProductDel)
-                    setArrayProductCart((a) => {
-                         return a.filter((product) => {
-                              let x = false
-                              if (
-                                   product.id === Number(idProductDel) &&
-                                   product.userId == userNow.id
-                              ) {
-                                   x = true
-                              }
-                              return !x
-                         })
+          if (
+               statusCheckBox.every(
+                    (CheckBox) => CheckBox.statusCheckBoxProduct == false
+               )
+          ) {
+               alert("Bạn chưa chọn sản phẩm")
+          } else {
+               setArrayProductCart((a) => {
+                    return a.filter((product, index) => {
+                         let x = false
+                         if (
+                              product.id ===
+                                   Number(statusCheckBox[index].idCheckBox) &&
+                              Number(statusCheckBox[index].idCheckBox)
+                                   .statusCheckBoxProduct == true
+                         ) {
+                              x = true
+                         }
+                         return !x
                     })
                })
-          } else {
-               alert("Bạn chưa chọn sản phẩm")
+
+               setStatusCheckBox((a) => {
+                    return a.filter((product) => {
+                         let x = false
+                         if (product.statusCheckBoxProduct == true) {
+                              x = true
+                         }
+                         return !x
+                    })
+               })
           }
      }
 
@@ -208,6 +252,17 @@ const Cart = () => {
                     return quantity
                })
           })
+          setArrayProductCart((products) => {
+               return products.map((product) => {
+                    if (product.id == e.target.id.split("_")[0]) {
+                         return {
+                              ...product,
+                              quantity: product.quantity - 1,
+                         }
+                    }
+                    return product
+               })
+          })
      }
      const handlerClickIncrease = (e) => {
           setSumQuantity((quantitys) => {
@@ -221,10 +276,23 @@ const Cart = () => {
                     return quantity
                })
           })
+          setArrayProductCart((products) => {
+               return products.map((product) => {
+                    if (product.id == e.target.id.split("_")[0]) {
+                         return {
+                              ...product,
+                              quantity: product.quantity + 1,
+                         }
+                    }
+                    return product
+               })
+          })
+          console.log(arrayProductCart)
      }
      const handlerPayProduct = () => {
           setIsLayoutPay(true)
      }
+
      function pushHistoryToLocal(proudct) {
           if (localStorage.getItem("history") === null) {
                localStorage.setItem("history", JSON.stringify([proudct]))
@@ -235,16 +303,19 @@ const Cart = () => {
           localStorage.setItem("history", JSON.stringify(proudcts))
      }
      const clickPay = () => {
-          if (arrayStatusCheckbox.length > 0) {
+          if (
+               statusCheckBox.filter(
+                    (status) => status.statusCheckBoxProduct == true
+               ).length > 0
+          ) {
                alert("Đặt hàng thành công")
                setArrayProductCart((products) => {
                     return products.filter((product) => {
                          let shouldFilter = false
-                         arrayStatusCheckbox.forEach((status) => {
+                         statusCheckBox.forEach((status) => {
                               if (
-                                   Number(status.id.split("_")[0]) ===
-                                        product.id &&
-                                   product.userId == userNow.id
+                                   Number(status.idCheckBox) === product.id &&
+                                   status.statusCheckBoxProduct == true
                               ) {
                                    shouldFilter = true
                               }
@@ -256,10 +327,10 @@ const Cart = () => {
                let productHistory = {
                     arrayProduct: arrayProductCart.filter((product) => {
                          let shouldFilter = false
-                         arrayStatusCheckbox.forEach((status) => {
+                         statusCheckBox.forEach((status) => {
                               if (
-                                   Number(status.id.split("_")[0]) ===
-                                   product.id
+                                   Number(status.idCheckBox) === product.id &&
+                                   status.statusCheckBoxProduct == true
                               ) {
                                    shouldFilter = true
                               }
@@ -333,6 +404,15 @@ const Cart = () => {
                                                        key={`${product.id}_${index}`}
                                                   >
                                                        <CartProduct
+                                                            clickCheckBoxProduct={
+                                                                 clickCheckBoxProduct
+                                                            }
+                                                            statusCheckbox={
+                                                                 statusCheckBox[
+                                                                      index
+                                                                 ]
+                                                                      ?.statusCheckBoxProduct
+                                                            }
                                                             linkPicture={
                                                                  product.thumbnail
                                                             }
@@ -358,9 +438,9 @@ const Cart = () => {
                                                                       index
                                                                  ]?.sumQuantity
                                                             }
-                                                            onChange={
-                                                                 hanglerSumProduct
-                                                            }
+                                                            // onChange={
+                                                            //      hanglerSumProduct
+                                                            // }
                                                             allPrice={sumPrice}
                                                             handlerClickDecrement={
                                                                  handlerClickDecrement
@@ -379,9 +459,10 @@ const Cart = () => {
                                    <Pay
                                         sumProduct={sumProductCart}
                                         sumPrice={sumPrice}
-                                        onChange={ClickAllCheckBox}
                                         onClickAll={ClickAllDelete}
                                         onClick={handlerPayProduct}
+                                        clickAllCheckBox={allChecked}
+                                        onClickCheckBoxAll={onClickCheckBoxAll}
                                    />
                               }
                          </div>

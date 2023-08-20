@@ -1,4 +1,5 @@
 import PropTypes from "prop-types"
+
 const CartProduct = ({
      linkPicture,
      description,
@@ -12,6 +13,7 @@ const CartProduct = ({
      quantitys,
      handlerSumPrice,
      currentPrice,
+     clickCheckBoxProduct,
 }) => {
      return (
           <>
@@ -21,9 +23,12 @@ const CartProduct = ({
                     <input
                          type="checkbox"
                          id={`${id}_checkbox`}
-                         defaultChecked={statusCheckbox}
-                         onChange={onChange}
+                         // defaultChecked={false}
+                         checked={statusCheckbox}
+                         // onChange={onChange}
+                         readOnly
                          className="relative left-[7px] scale-[1.75] w-[10px] h-[10px] my-auto"
+                         onClick={clickCheckBoxProduct}
                     />
                     <div className="flex">
                          <img
@@ -50,7 +55,7 @@ const CartProduct = ({
                          className=" border-y-2 h-[40px] w-[160px] my-[auto] mx-0 text-center"
                          min="0"
                          readOnly
-                         onChange={handlerSumPrice}
+                         // onChange={handlerSumPrice}
                     />
                     <input
                          className="border-2 w-[38px] h-[40px] relative my-[auto] left-[-47px]"
@@ -76,6 +81,7 @@ const CartProduct = ({
           </>
      )
 }
+
 CartProduct.propTypes = {
      linkPicture: PropTypes.any,
      description: PropTypes.any,

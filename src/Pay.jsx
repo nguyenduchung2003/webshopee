@@ -1,5 +1,14 @@
 import PropTypes from "prop-types"
-const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
+
+const Pay = ({
+     sumProduct,
+     sumPrice,
+     onChange,
+     onClickAll,
+     onClick,
+     clickAllCheckBox,
+     onClickCheckBoxAll,
+}) => {
      return (
           <>
                <div className="flex justify-between ">
@@ -7,9 +16,11 @@ const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
                          <div className="mx-10 flex">
                               <input
                                    type="checkbox"
-                                   onChange={onChange}
+                                   readOnly
+                                   checked={clickAllCheckBox}
                                    id="allCheckBox"
                                    className="mt-[-8px]"
+                                   onClick={onClickCheckBoxAll}
                               />
                               <label htmlFor="allCheckBox" className="mt-[2px]">
                                    Chọn tất cả
@@ -35,11 +46,13 @@ const Pay = ({ sumProduct, sumPrice, onChange, onClickAll, onClick }) => {
           </>
      )
 }
+
 Pay.propTypes = {
      sumPrice: PropTypes.any,
      sumProduct: PropTypes.any,
      onChange: PropTypes.any,
      onClickAll: PropTypes.any,
      onClick: PropTypes.any,
+     clickAllCheckBox: PropTypes.any,
 }
 export default Pay
