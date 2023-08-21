@@ -82,19 +82,31 @@ const Banner = ({ statusBanner, isCart = false }) => {
                <div
                     className={`bg-backgroudBanner w-full h-[125px] ${statusBanner} top-0 left-0 right-0 z-50`}
                >
-                    <div className="flex justify-around">
+                    <div className="flex justify-around cursor-pointer">
                          <div className="flex justify-between">
-                              <div className="mx-2.5">Kênh người bán</div>
-                              <div className="mx-2.5">
+                              <div className="mx-2.5  hover:text-white">
+                                   Kênh người bán
+                              </div>
+                              <div className="mx-2.5  hover:text-white">
                                    Trở thành Người bán Shoppe
                               </div>
-                              <div className="mx-2.5">Tải ứng dụng</div>
-                              <div className="mx-2.5">Kết nối</div>
+                              <div className="mx-2.5  hover:text-white">
+                                   Tải ứng dụng
+                              </div>
+                              <div className="mx-2.5  hover:text-white">
+                                   Kết nối
+                              </div>
                          </div>
                          <div className="flex">
-                              <div className="mx-5">Thông báo</div>
-                              <div className="mx-5">Hỗ trợ</div>
-                              <div className="mx-5">Tiếng việt</div>
+                              <div className="mx-5  hover:text-white">
+                                   Thông báo
+                              </div>
+                              <div className="mx-5  hover:text-white">
+                                   Hỗ trợ
+                              </div>
+                              <div className="mx-5  hover:text-white">
+                                   Tiếng việt
+                              </div>
                               {isAccount ? (
                                    <>
                                         <div className="mx-10 group absolute z-100 right-[-20px] w-[120px]">
@@ -121,7 +133,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                    <>
                                         {" "}
                                         <NavLink
-                                             className="mx-2.5"
+                                             className="mx-2.5 cursor-pointer"
                                              end
                                              to="/webshopee/login"
                                              style={({ isActive }) => ({
@@ -133,7 +145,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                                              Đăng nhập
                                         </NavLink>
                                         <NavLink
-                                             className="mx-2.5"
+                                             className="mx-2.5 cursor-pointer"
                                              end
                                              to="/webshopee/register"
                                              style={({ isActive }) => ({
@@ -153,7 +165,7 @@ const Banner = ({ statusBanner, isCart = false }) => {
                               <img
                                    src={logoShopee}
                                    alt=""
-                                   className="w-12 absolute top-10 left-[200px]"
+                                   className="w-12 absolute top-10 left-[200px] cursor-pointer"
                               />
                               {isCart ? (
                                    <div className="text-2xl absolute left-[300px] top-[50px]">
@@ -343,8 +355,8 @@ const Banner = ({ statusBanner, isCart = false }) => {
                               </>
                          )}
                     </div>
-                    <div className="flex justify-center relative bottom-[-20px]">
-                         <div className="mx-2.5"> Săn Sale 1k</div>
+                    <div className="flex justify-center relative bottom-[-20px] cursor-pointer">
+                         <div className="mx-2.5 "> Săn Sale 1k</div>
                          <div className="mx-2.5">Bộ đồ ếch xanh</div>
                          <div className="mx-2.5">
                               Sét đồ nữ sang chảnh tiểu thư

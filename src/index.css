@@ -1,3 +1,21 @@
 @tailwind base;
+@layer base {
+     input[type="button"],
+     button {
+          @apply font-semibold;
+     }
+
+     input[type="button"]::before,
+     input[type="button"]::after,
+     button::before,
+     button::after {
+          border-width: 1px;
+          border-style: solid;
+          border-color: theme("borderColor.DEFAULT", currentColor);
+     }
+}
 @tailwind components;
 @tailwind utilities;
+.always-visible-button {
+     display: block !important;
+}

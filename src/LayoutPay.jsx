@@ -1,9 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PropTypes from "prop-types"
-const LayoutPay = ({ clickPay, clickCancel, allPrice }) => {
+const LayoutPay = ({ clickPay, clickCancel, allPrice, check }) => {
      const [name, setName] = useState("")
      const [phone, setPhone] = useState("")
      const [address, setAddress] = useState("")
+     useEffect(() => {
+          if (!name || !phone || !address) {
+               check(false)
+          } else {
+               check(true)
+          }
+     }, [name, phone, address, check])
      const changeName = (e) => {
           setName(e.target.value)
      }
@@ -78,5 +85,6 @@ LayoutPay.propTypes = {
      clickPay: PropTypes.any,
      clickCancel: PropTypes.any,
      allPrice: PropTypes.any,
+     check: PropTypes.any,
 }
 export default LayoutPay

@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 const Pay = ({
      sumProduct,
      sumPrice,
-     onChange,
+     // onChange,
      onClickAll,
      onClick,
      clickAllCheckBox,
@@ -54,5 +54,6 @@ Pay.propTypes = {
      onClickAll: PropTypes.any,
      onClick: PropTypes.any,
      clickAllCheckBox: PropTypes.any,
+     onClickCheckBoxAll: PropTypes.any,
 }
 export default Pay

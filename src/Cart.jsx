@@ -5,6 +5,7 @@ import Banner from "./Banner"
 import emptyshoppingcart from "./Picture/emptyshoppingcart.png"
 import { useNavigate } from "react-router-dom"
 import LayoutPay from "./LayoutPay"
+import ModalProduct from "./ModalProduct"
 import { v4 as uuidv4 } from "uuid"
 import moment from "moment"
 const Cart = () => {
@@ -19,6 +20,7 @@ const Cart = () => {
      const dataProductOther = useRef(
           initialProductCart.filter((product) => product.userId != userNow.id)
      )
+     const [isModal, setIsModal] = useState(false)
 
      useEffect(() => {}, [arrayProductCart, userNow.id])
      useEffect(() => {
@@ -287,7 +289,6 @@ const Cart = () => {
                     return product
                })
           })
-          console.log(arrayProductCart)
      }
      const handlerPayProduct = () => {
           setIsLayoutPay(true)
@@ -302,11 +303,13 @@ const Cart = () => {
           proudcts.push(proudct)
           localStorage.setItem("history", JSON.stringify(proudcts))
      }
+     const [checkInfor, setCheckInfor] = useState(true)
      const clickPay = () => {
           if (
                statusCheckBox.filter(
                     (status) => status.statusCheckBoxProduct == true
-               ).length > 0
+               ).length > 0 &&
+               checkInfor == true
           ) {
                alert("Đặt hàng thành công")
                setArrayProductCart((products) => {
@@ -344,22 +347,41 @@ const Cart = () => {
                }
                pushHistoryToLocal(productHistory)
                setIsLayoutPay(false)
+          } else if (checkInfor == false) {
+               alert("Hãy điền đầy đủ thông tin")
           } else {
                alert("Bạn chưa chọn sản phẩm")
           }
+          console.log(checkInfor)
      }
      const clickCancel = () => {
           setIsLayoutPay(false)
+     }
+     useEffect(() => {
+          if (sumQuantity.some((item) => item.sumQuantity == 0)) {
+               setIsModal(true)
+          }
+     }, [sumQuantity])
+     const onOkeModal = () => {
+          const x = arrayProductCart.filter((item) => item.quantity != 0)
+          setArrayProductCart(x)
+          setIsModal(false)
      }
 
      return (
           <>
                <Banner isCart="true" />
+               <ModalProduct
+                    isModal={isModal}
+                    onCancel={() => setIsModal(false)}
+                    onOke={onOkeModal}
+               />
                {isLayoutPay ? (
                     <LayoutPay
                          allPrice={sumPrice}
                          clickCancel={clickCancel}
                          clickPay={clickPay}
+                         check={setCheckInfor}
                     />
                ) : null}
                {arrayProductCart?.length > 0 &&

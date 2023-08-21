@@ -1,5 +1,6 @@
 import { useLocation, useParams, NavLink } from "react-router-dom"
 import { useState, useEffect, useRef } from "react"
+import Rating from "@mui/material/Rating"
 import Banner from "./Banner"
 const Products = () => {
      const { id } = useParams()
@@ -10,6 +11,7 @@ const Products = () => {
           []
           // state.find((product) => product.id === Number(id))
      )
+
      useEffect(() => {
           setProduct(state.find((product) => product.id === Number(id)))
      }, [state, id])
@@ -79,14 +81,19 @@ const Products = () => {
           setQuantity(e.target.value)
      }
      const handlerClickDecrement = () => {
-          setQuantity(quantity - 1)
+          if (quantity > 0) {
+               setQuantity(quantity - 1)
+          } else return
      }
+
      const handlerClickIncrease = () => {
           setQuantity(quantity + 1)
      }
+
      return (
           <>
                <Banner />
+
                <div className="flex justify-center">
                     <div className="w-[505px] h-[540px] mx-10">
                          <div>
@@ -127,12 +134,19 @@ const Products = () => {
                                    <div>{product.description}</div>
                               ) : null}
                          </div>
+
+                         <Rating
+                              key={product.id}
+                              defaultValue={product?.rating}
+                              precision={0.1}
+                              readOnly
+                         />
                          <div className="my-[20px]">
                               {product ? <div>Giá:{product.price}$</div> : null}
                          </div>
                          <div className="my-[20px]">
                               <input
-                                   className="border-2 w-[30px] h-[40px] relative my-[auto] "
+                                   className="border-2 w-[30px] h-[40px] relative my-[auto] top-[-1px]"
                                    type="button"
                                    value="-"
                                    onClick={handlerClickDecrement}
@@ -146,7 +160,7 @@ const Products = () => {
                                    onChange={hanglerQuantity}
                               />
                               <input
-                                   className="border-2 w-[30px] h-[40px] relative my-[auto] left-[0px]"
+                                   className="border-2 w-[30px] h-[40px] relative my-[auto] left-[0px] top-[-1px]"
                                    type="button"
                                    value="+"
                                    onClick={handlerClickIncrease}

@@ -5,6 +5,7 @@ import BannerTwo from "./BannerTwo"
 import LayoutProduct from "./LayoutProduct"
 import Category from "./Category"
 
+import "react-toastify/dist/ReactToastify.css"
 import { DataContext } from "./DataContext"
 function App() {
      const [visibleProducts, setVisibleProducts] = useState(5)
@@ -17,7 +18,6 @@ function App() {
      const handleSeeLess = () => {
           setVisibleProducts(visibleProducts - 5)
      }
-
      return (
           <>
                <Banner data={dataProduct} statusBanner="fixed" />

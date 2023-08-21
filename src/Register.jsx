@@ -3,6 +3,10 @@ import logoShopee from "./Picture/logoShopee.png"
 import imgRegister from "./Picture/imgRegister.jpg"
 import { useEffect, useState, useRef } from "react"
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import Box from "@mui/material/Box"
+import TextField from "@mui/material/TextField"
 const Register = () => {
      const userList = JSON.parse(localStorage.getItem("account"))
      let idMax = 0
@@ -96,15 +100,22 @@ const Register = () => {
                checkRegisterPassword == false &&
                checkRegisterAccount2 == false
           ) {
-               alert("Đăng kí thành công")
+               toast.error("Đăng kí thành công", {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1000,
+               })
                pushAccountToLocal(User)
                navagite("/webshopee/login")
           } else {
-               alert("Đăng kí thất bại")
+               toast.error("Đăng kí thất bại", {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1000,
+               })
           }
      }
      return (
           <>
+               <ToastContainer />
                <div className="flex ">
                     <NavLink to="/webshopee/">
                          <img
@@ -117,7 +128,7 @@ const Register = () => {
                     <h1 className="leading-[50px]">ĐĂNG KÝ</h1>
                </div>
                <div
-                    className={`w-full h-[600px] bg-[#FFEBE2] bg-no-repeat mt-[50px]`}
+                    className={`w-full h-[540px] bg-[#FFEBE2] bg-no-repeat mt-[20px]`}
                     style={{ backgroundImage: `url(${imgRegister})` }}
                >
                     <div className="bg-white w-[410px] h-[380px] relative left-[900px] top-[120px] rounded">
@@ -125,45 +136,86 @@ const Register = () => {
                               Đăng ký
                          </div>
 
-                         <div className="relative ">
+                         <div className="relative left-[50px]">
                               <div className="flex my-[50px]">
-                                   <div>Tài khoản</div>
-                                   <input
+                                   <div className="relative left-[-20px] top-1">
+                                        Tài khoản
+                                   </div>
+                                   {/* <input
                                         type="text"
                                         className="border-2"
                                         value={textAccount}
                                         onChange={handlerAccountChange}
-                                   />
-                                   <div></div>
+                                   /> */}
+                                   <Box
+                                        component="form"
+                                        sx={{
+                                             "& > :not(style)": {
+                                                  width: "185px",
+                                             },
+                                        }}
+                                        autoComplete="off"
+                                   >
+                                        <TextField
+                                             size="small"
+                                             value={textAccount}
+                                             id="outlined-basic"
+                                             label="Tài khoản"
+                                             variant="outlined"
+                                             onChange={handlerAccountChange}
+                                        />
+                                   </Box>
                               </div>
                               {checkRegisterAccount ? (
-                                   <div className="relative top-[-30px]">
+                                   <div className="relative top-[-30px] left-[-50px]">
                                         Tài khoản phải có độ dài lớn hơn 8 kí tự
                                    </div>
                               ) : (
-                                   <div className="relative top-[-30px]">
+                                   <div className="relative top-[-30px] left-[-50px]">
                                         Tài khoản hợp lệ
                                    </div>
                               )}
 
                               {textAccount.length > 8 &&
                               checkRegisterAccount2 ? (
-                                   <div className="relative top-[-20px]">
+                                   <div className="relative top-[-20px] left-[-50px]">
                                         Tài khoản đã tồn tại
                                    </div>
                               ) : textAccount.length > 8 ? (
-                                   <div className="relative top-[-20px]">
+                                   <div className="relative top-[-20px] left-[-50px]">
                                         Tài khoản hợp lệ
                                    </div>
                               ) : null}
                               <div className="flex">
-                                   <div>Mật khẩu</div>
+                                   {/* <div>Mật khẩu</div>
                                    <input
                                         type={InputType}
                                         className="border-2"
                                         value={textPassword}
                                         onChange={handlerPasswordChange}
-                                   />
+                                   /> */}
+                                   <div className="relative left-[-20px] top-1">
+                                        Mật khẩu
+                                   </div>
+                                   <Box
+                                        component="form"
+                                        sx={{
+                                             "& > :not(style)": {
+                                                  width: "185px",
+                                             },
+                                        }}
+                                        autoComplete="off"
+                                   >
+                                        <TextField
+                                             size="small"
+                                             type={InputType}
+                                             value={textPassword}
+                                             id="outlined-basic"
+                                             label="Mật khẩu"
+                                             variant="outlined"
+                                             onChange={handlerPasswordChange}
+                                        />
+                                   </Box>
                                    <div className="mt-[-3px]">
                                         {visible ? (
                                              <EyeOutlined
@@ -177,11 +229,11 @@ const Register = () => {
                                    </div>
                               </div>
                               {checkRegisterPassword ? (
-                                   <div className="relative top-[25px]">
+                                   <div className="relative top-[25px] left-[-50px]">
                                         Mật khẩu phải có độ dài lớn hơn 8 kí tự
                                    </div>
                               ) : (
-                                   <div className="relative top-[25px]">
+                                   <div className="relative top-[25px] left-[-50px]">
                                         Mật khẩu hợp lệ
                                    </div>
                               )}
