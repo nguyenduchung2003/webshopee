@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
+import { notification } from "antd"
 
 const Login = () => {
      const navigate = useNavigate()
@@ -46,9 +47,9 @@ const Login = () => {
                null
           }
           if (checkLogin == true) {
-               toast.success("Đăng nhập thành công", {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: 3000,
+               notification.success({
+                    message: "Đăng nhập thành công thành công",
+                    duration: 2,
                })
 
                navigate("/webshopee")
@@ -104,7 +105,6 @@ const Login = () => {
                                         <TextField
                                              size="small"
                                              value={textAccount}
-                                             id="outlined-basic"
                                              label="Tài khoản"
                                              variant="outlined"
                                              onChange={handlerAccountChange}
@@ -128,7 +128,6 @@ const Login = () => {
                                              size="small"
                                              type={InputType}
                                              value={textPassword}
-                                             id="outlined-basic"
                                              label="Mật khẩu"
                                              variant="outlined"
                                              onChange={handlerPasswordChange}
@@ -156,6 +155,11 @@ const Login = () => {
                          <NavLink to="/webshopee/Register">
                               <div className=" relative top-[50px] left-[270px] w-[200px] h-[50px]">
                                    Tôi chưa có tài khoản
+                              </div>
+                         </NavLink>
+                         <NavLink to="/webshopee/forgetpassword">
+                              <div className=" relative top-[-80px] left-[270px] w-[200px] h-[50px]">
+                                   Quên mật khẩu
                               </div>
                          </NavLink>
                     </div>

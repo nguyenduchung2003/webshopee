@@ -6,6 +6,7 @@ import Cart from "./Cart"
 import CategoryChildren from "./CategoryChildren"
 import History from "./History"
 import { createBrowserRouter } from "react-router-dom"
+import ForgetPassword from "./ForgetPassword"
 
 const Router = createBrowserRouter([
      {
@@ -36,6 +37,10 @@ const Router = createBrowserRouter([
      {
           path: "/webshopee/history",
           element: <History />,
+     },
+     {
+          path: "/webshopee/forgetpassword",
+          element: <ForgetPassword />,
      },
 ])
 export default Router
